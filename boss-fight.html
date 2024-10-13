@@ -59,6 +59,7 @@ body {
     max-width: 800px;
     text-align: center;
     border: 2px solid var(--cor-borda);
+    z-index: 1;
 }
 
 /* Títulos */
@@ -171,12 +172,17 @@ button:hover, .fight-btn:hover {
     padding: 20px;
     margin-top: 20px; /* Espaçamento superior para separar de outras seções */
     border: 2px solid var(--cor-borda);
+    position: relative; /* Para garantir que fique abaixo do contêiner principal */
+    z-index: 1; /* Para estar acima de outros elementos se necessário */
+    display: none;
 }
+
 
 #rescued-heroes-section h2 {
     color: var(--cor-dourado);
     font-size: 2em; /* Tamanho do título */
     margin-bottom: 15px; /* Espaçamento inferior */
+    display: none;
 }
 
 .rescued-heroes-list {
@@ -184,6 +190,7 @@ button:hover, .fight-btn:hover {
     flex-wrap: wrap; /* Permite que os heróis se ajustem em várias linhas */
     justify-content: center; /* Centraliza os heróis */
     margin-top: 10px; /* Espaçamento superior para a lista */
+    display: none;
 }
 
 .rescued-hero-card {
@@ -195,23 +202,76 @@ button:hover, .fight-btn:hover {
     border: 1px solid var(--cor-borda);
     transition: background-color 0.3s, transform 0.3s; /* Transições suaves */
     width: 150px; /* Largura fixa para as cartas */
+    display: none;
 }
 
 .rescued-hero-card:hover {
     background-color: var(--cor-dourado-escuro);
     transform: scale(1.05); /* Leve aumento na carta ao passar o mouse */
+    display: none;
 }
 
 .rescued-hero-card img {
     max-width: 100px; /* Tamanho máximo da imagem do herói */
     margin-bottom: 10px; /* Espaçamento inferior */
+    display: none;
 }
 
 .rescued-hero-card p {
     color: var(--cor-texto-branco); /* Cor do texto do herói */
     margin-top: 5px; /* Espaçamento superior para o texto */
+    display: none;
 }
 
+
+.container2 {
+    margin-top: 800px; /* Espaçamento entre o container e o container2 */
+    width: 100%; /* Garante que ocupe toda a largura */
+    max-width: 800px; /* Limita a largura máxima, se necessário */
+    margin-left: -800px; /* Move o contêiner 400px para a esquerda */
+    margin-right: auto; /* Garante que o contêiner não tenha margem direita */
+    z-index: 2;
+}
+
+.hero-ad {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000; /* Para garantir que fique acima de outros elementos */
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    color: white;
+    width: 250px;
+    height: auto;
+}
+
+.hero-ad-content img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
+.hero-ad-content h3 {
+    margin: 10px 0;
+    font-size: 1.5em;
+}
+
+/* Animação de giro */
+.spin-animation {
+    animation: spin 5s ease-in-out;
+}
+
+@keyframes spin {
+    0% {
+        transform: translate(-50%, -50%) rotateY(0deg);
+    }
+    100% {
+        transform: translate(-50%, -50%) rotateY(360deg);
+    }
+}
 
 /* Animações para o combate */
 @keyframes attack-animation {
@@ -224,6 +284,24 @@ button:hover, .fight-btn:hover {
 .attack {
     animation: attack-animation 0.5s ease;
 }
+
+@keyframes winAnimation {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.win {
+    animation: winAnimation 1s ease-in-out;
+}
+
+
 
 /* Media Queries */
 @media (max-width: 600px) {
@@ -263,7 +341,6 @@ button:hover, .fight-btn:hover {
 <body>
     <div class="container">
         <h1>Batalha Contra o Boss</h1>
-
         <div class="boss">
             <div class="info">
                 <h2>Boss: Dragão Ancião</h2>
@@ -276,7 +353,7 @@ button:hover, .fight-btn:hover {
             </div>
             <img src="https://th.bing.com/th/id/OIG1.SHGpX8lJLruWVPCG0qAP?pid=ImgGn" alt="Dragão Ancião">
         </div>
-
+        
         <!-- Seção para selecionar o herói -->
         <div class="hero">
             <div class="info">
@@ -313,13 +390,18 @@ button:hover, .fight-btn:hover {
         <!-- Botão de resgatar herói -->
         <button id="rescue-button" onclick="rescueHero()" disabled>Resgatar Novo Herói</button>
     </div>
-    <div id="rescued-heroes-section">
-        <h2>Heróis Resgatados:</h2>
-        <div class="rescued-heroes-list" id="rescued-heroes-list">
-            <!-- Heróis resgatados aparecerão aqui -->
-        </div>
-    </div>
+
+    <!-- Container 2 -->
     
+        <div id="rescued-heroes-section">
+            <h2>Heróis Resgatados:</h2>
+            <div class="rescued-heroes-list" id="rescued-heroes-list">
+                <!-- Heróis resgatados aparecerão aqui -->
+            </div>
+        </div>
+    
+
+    <span id="rescued-hero"></span>
 </body>
 
 
@@ -327,115 +409,118 @@ button:hover, .fight-btn:hover {
 
 
 
+
     <script>
-        function loadHeroesFromStorage() {
-            const storedHeroes = JSON.parse(localStorage.getItem('userHeroes')) || [];
-            return storedHeroes;
+       // Função para carregar heróis do localStorage
+function loadHeroesFromStorage() {
+    const storedHeroes = JSON.parse(localStorage.getItem('userHeroes')) || [];
+    return storedHeroes;
+}
+
+let selectedHero = null; // Variável para armazenar o herói selecionado
+let keysAvailable = 0; // Inicializa o contador de chaves
+let rescuedHeroes = []; // Array para armazenar os heróis resgatados
+
+// Função para mostrar o banco de heróis
+function showHeroSelection() {
+    const heroSelection = document.getElementById('hero-selection');
+    const heroList = document.getElementById('hero-list');
+    heroList.innerHTML = ''; // Limpa a lista antes de gerar os heróis
+
+    const storedHeroes = loadHeroesFromStorage(); // Carrega heróis do localStorage
+
+    storedHeroes.forEach(hero => {
+        const heroCard = document.createElement('div');
+        heroCard.classList.add('hero-card');
+
+        // Define a cor com base na raridade
+        let rarityColor;
+        switch (hero.rarity) {
+            case "lendário":
+                rarityColor = "gold";
+                break;
+            case "heroico":
+                rarityColor = "red";
+                break;
+            case "comum":
+                rarityColor = "gray";
+                break;
+            default:
+                rarityColor = "black";
         }
 
-        let selectedHero = null;
+        // Aplica a cor ao nome do herói
+        heroCard.innerHTML = `
+            <img src="${hero.image}" alt="${hero.name}">
+            <h3 style="color: ${rarityColor};">${hero.name}</h3>
+            <p>Poder: ${hero.power}</p>
+            <p>HP: ${hero.hp}</p>
+        `;
+        heroCard.onclick = () => selectHero(hero);
+        heroList.appendChild(heroCard);
+    });
 
-        // Função para mostrar o banco de heróis
-        function showHeroSelection() {
-            const heroSelection = document.getElementById('hero-selection');
-            const heroList = document.getElementById('hero-list');
-            heroList.innerHTML = ''; // Limpa a lista antes de gerar os heróis
+    heroSelection.style.display = 'flex';
+}
 
-            const storedHeroes = loadHeroesFromStorage(); // Carrega heróis do localStorage
+// Função para selecionar o herói
+function selectHero(hero) {
+    selectedHero = hero;
+    document.getElementById('hero-name').textContent = hero.name;
+    document.getElementById('hero-power').textContent = hero.power;
+    document.getElementById('hero-skill').textContent = hero.skill;
+    document.getElementById('hero-hp').textContent = hero.hp; // Atualiza HP do herói
+    document.getElementById('hero-image').src = hero.image;
+    document.getElementById('hero-hp-bar').style.width = hero.hp + '%'; // Atualiza barra de HP do herói
+    document.getElementById('hero-selection').style.display = 'none';
+}
 
-            storedHeroes.forEach(hero => {
-                const heroCard = document.createElement('div');
-                heroCard.classList.add('hero-card');
-
-                // Define a cor com base na raridade
-                let rarityColor;
-                switch (hero.rarity) {
-                    case "lendário":
-                        rarityColor = "gold"; // Cor dourada para lendário
-                        break;
-                    case "heroico":
-                        rarityColor = "red"; // Cor vermelha para heroico
-                        break;
-                    case "comum":
-                        rarityColor = "gray"; // Cor cinza para comum
-                        break;
-                    default:
-                        rarityColor = "black"; // Cor padrão
-                }
-
-                // Aplica a cor ao nome do herói
-                heroCard.innerHTML = `
-                    <img src="${hero.image}" alt="${hero.name}">
-                    <h3 style="color: ${rarityColor};">${hero.name}</h3>
-                    <p>Poder: ${hero.power}</p>
-                    <p>HP: ${hero.hp}</p> <!-- Adicionando exibição do HP -->
-                `;
-                heroCard.onclick = () => selectHero(hero);
-                heroList.appendChild(heroCard);
-            });
-
-            heroSelection.style.display = 'flex';
+// Função para iniciar a batalha
+    function startBattle() {
+        console.log("A função startBattle foi chamada.");
+        
+        // Verifica se um herói foi selecionado
+        if (!selectedHero) {
+            alert("Por favor, selecione um herói antes de lutar!");
+            return;
         }
 
-        // Função para selecionar o herói
-        function selectHero(hero) {
-            selectedHero = hero;
-            document.getElementById('hero-name').textContent = hero.name;
-            document.getElementById('hero-power').textContent = hero.power;
-            document.getElementById('hero-skill').textContent = hero.skill;
-            document.getElementById('hero-hp').textContent = hero.hp; // Atualiza HP do herói
-            document.getElementById('hero-image').src = hero.image;
-            document.getElementById('hero-hp-bar').style.width = hero.hp + '%'; // Atualiza barra de HP do herói
-            document.getElementById('hero-selection').style.display = 'none';
-        }
+        let bossHp = 100; // HP do boss
+        const bossPower = 100; // Poder do boss
+        const heroPower = selectedHero.power; // Poder do herói
+        let heroHp = selectedHero.hp; // HP do herói
 
-        // Função para iniciar a batalha
-        // Função para iniciar a batalha
-        let keysAvailable = 0; // Inicializa o contador de chaves
-
-function startBattle() {
-    console.log("A função startBattle foi chamada.");
-    
-    // Verifica se um herói foi selecionado
-    if (!selectedHero) {
-        alert("Por favor, selecione um herói antes de lutar!");
-        return;
-    }
-
-    let bossHp = 100; // HP do boss
-    const bossPower = 100; // Poder do boss
-    const heroPower = selectedHero.power; // Poder do herói
-    let heroHp = selectedHero.hp; // HP do herói
-
-    // Função que realiza a batalha em turnos
-    function turn() {
-        // O herói ataca o boss
-        bossHp -= heroPower; // Dano ao boss
-        updateHpDisplay();
-        document.querySelector('.boss').classList.add('attack'); // Adiciona animação de ataque
-
-        if (bossHp <= 0) {
-            document.getElementById('battle-result').textContent = `${selectedHero.name} venceu o Dragão Ancião!`;
-            keysAvailable++; // Incrementa o contador de chaves ao vencer o boss
-            updateKeyCount(); // Atualiza a exibição de chaves
-            return; // Encerra a batalha
-        }
-
-        // O boss ataca o herói
-        setTimeout(() => {
-            heroHp -= bossPower; // Dano do boss
+        // Função que realiza a batalha em turnos
+        function turn() {
+            bossHp -= heroPower; // Dano ao boss
             updateHpDisplay();
-            document.querySelector('.hero').classList.add('attack'); // Adiciona animação de ataque
+            document.querySelector('.boss').classList.add('attack'); // Adiciona animação de ataque
 
-            if (heroHp <= 0) {
-                document.getElementById('battle-result').textContent = `${selectedHero.name} foi derrotado pelo Dragão Ancião!`;
-                return; // Encerra a batalha
+            if (bossHp <= 0) {
+            document.getElementById('battle-result').textContent = `${selectedHero.name} venceu o Dragão Ancião!`;
+
+                    // Adiciona a animação ao herói
+                    document.querySelector('.hero').classList.add('win');
+
+                    keysAvailable++; // Incrementa o contador de chaves ao vencer o boss
+                    updateKeyCount(); // Atualiza a exibição de chaves
+                    return; // Encerra a batalha
             }
 
-            // Chama a função de turn novamente se a batalha continuar
-            setTimeout(turn, 1000); // Espera 1 segundo antes de continuar o próximo turno
-        }, 1000); // Delay antes do ataque do boss
-    }
+            // O boss ataca o herói
+            setTimeout(() => {
+                heroHp -= bossPower; // Dano do boss
+                updateHpDisplay();
+                document.querySelector('.hero').classList.add('attack'); // Adiciona animação de ataque
+
+                if (heroHp <= 0) {
+                    document.getElementById('battle-result').textContent = `${selectedHero.name} foi derrotado pelo Dragão Ancião!`;
+                    return; // Encerra a batalha
+                }
+
+                setTimeout(turn, 1000); // Próximo turno
+            }, 1000);
+        }
 
     // Atualiza a exibição de HP
     function updateHpDisplay() {
@@ -450,37 +535,34 @@ function startBattle() {
         heroHpElement.textContent = heroHp;
         heroHpBarElement.style.width = `${Math.max(0, (heroHp / selectedHero.hp) * 100)}%`;
 
-        // Remover a animação após o ataque
+        // Remove a animação após o ataque
         setTimeout(() => {
             document.querySelector('.boss').classList.remove('attack');
             document.querySelector('.hero').classList.remove('attack');
-        }, 500); // Remove a animação após 500ms
+        }, 500);
     }
 
-    // Inicia o primeiro turno
-    turn();
+    turn(); // Inicia o primeiro turno
 }
 
 // Função para atualizar a contagem de chaves na interface
 function updateKeyCount() {
     document.getElementById('keys-available').textContent = keysAvailable;
-
-    // Habilita o botão de resgatar herói se houver chaves disponíveis
     document.getElementById('rescue-button').disabled = keysAvailable <= 0;
 }
 
-let rescuedHeroes = []; // Array para armazenar os heróis resgatados
-
 function rescueHero() {
     if (keysAvailable > 0) {
-        // Exemplo de lógica para selecionar um novo herói aleatório
-        const newHero = getRandomHero(); // Essa função deve retornar um herói aleatório do seu banco de dados
+        const newHero = getRandomHero(); // Função que retorna um herói aleatório
 
         // Adiciona o novo herói à lista de heróis resgatados
         rescuedHeroes.push(newHero);
 
         // Atualiza a exibição da lista de heróis resgatados
         updateRescuedHeroesList();
+
+        // Exibe o herói resgatado como uma "propaganda"
+        showRescuedHeroAd(newHero);
 
         // Decrementa a contagem de chaves
         keysAvailable--;
@@ -490,6 +572,38 @@ function rescueHero() {
     }
 }
 
+function showRescuedHeroAd(hero) {
+    // Cria o elemento de propaganda
+    const adContainer = document.createElement('div');
+    adContainer.classList.add('hero-ad');
+
+    // Adiciona o conteúdo do herói resgatado
+    adContainer.innerHTML = `
+        <div class="hero-ad-content">
+            <img src="${hero.image}" alt="${hero.name}">
+            <h3>${hero.name}</h3>
+            <p>Poder: ${hero.power}</p>
+            <p>Habilidade: ${hero.skill}</p>
+            <p>HP: ${hero.hp}</p>
+        </div>
+    `;
+
+    // Adiciona a classe de animação para girar o herói
+    adContainer.classList.add('spin-animation');
+
+    // Adiciona o anúncio ao corpo da página
+    document.body.appendChild(adContainer);
+
+    // Remove o anúncio após alguns segundos (por exemplo, 5 segundos)
+    setTimeout(() => {
+        adContainer.classList.remove('spin-animation'); // Para remover a animação após o tempo
+        adContainer.remove(); // Remove o anúncio da tela
+    }, 5000); // Exibe por 5 segundos
+}
+
+
+
+// Função para atualizar a lista de heróis resgatados
 function updateRescuedHeroesList() {
     const rescuedHeroesList = document.getElementById('rescued-heroes-list');
     rescuedHeroesList.innerHTML = ''; // Limpa a lista antes de atualizar
@@ -509,41 +623,24 @@ function updateRescuedHeroesList() {
     });
 }
 
-// Função para obter um herói aleatório (exemplo)
-function assignRarity(power) {
-    // Função para determinar a raridade com base no poder
-    if (power >= 100) {
-        return "lendário"; // Poder alto
-    } else if (power >= 50) {
-        return "heroico"; // Poder médio
-    } else {
-        return "comum"; // Poder baixo
-    }
-}
-
+// Função para obter um herói aleatório
 function getRandomHero() {
-    // Lista de heróis
     const heroes = [
         { name: "Baby Dragon", power: 20, skill: "Corte Poderoso", hp: 50, image: "https://th.bing.com/th/id/OIG3.FSFYb04IkPf3bieUvP_A?w=1024&h=1024&rs=1&pid=ImgDetMain" },
         { name: "Cavaleiro Dragão", power: 80, skill: "Fogo Mágico", hp: 85, image: "https://tse4.mm.bing.net/th?id=OIG2..rkR9vAnghogNT7ZXb1J&pid=ImgGn" },
         { name: "Rei Dragão", power: 100, skill: "Kings Will", hp: 120, image: "https://tse3.mm.bing.net/th?id=OIG3.Z4nvGNc3EQEmWANRKFll&pid=ImgGn" },
     ];
 
-    // Gera um número aleatório de 0 a 99
     const randomNumber = Math.floor(Math.random() * 100);
-
     let selectedHero;
 
-    // Se o número aleatório for 0, seleciona o Rei Dragão (1% de chance)
     if (randomNumber === 0) {
         selectedHero = heroes[2]; // Rei Dragão
     } else {
-        // Caso contrário, seleciona um dos outros heróis (Baby Dragon ou Cavaleiro Dragão)
-        const otherHeroes = [heroes[0], heroes[1]]; // Baby Dragon e Cavaleiro Dragão
+        const otherHeroes = [heroes[0], heroes[1]];
         selectedHero = otherHeroes[Math.floor(Math.random() * otherHeroes.length)];
     }
 
-    // Cria um objeto heroDetails a partir do herói selecionado
     const heroDetails = {
         name: selectedHero.name,
         power: selectedHero.power,
@@ -553,7 +650,6 @@ function getRandomHero() {
         rarity: assignRarity(selectedHero.power) // Atribui a raridade com base no poder
     };
 
-    // Armazena o herói nos heróis do usuário no localStorage
     let userHeroes = JSON.parse(localStorage.getItem('userHeroes')) || [];
     userHeroes.push(heroDetails);
     localStorage.setItem('userHeroes', JSON.stringify(userHeroes));
@@ -561,25 +657,23 @@ function getRandomHero() {
     return heroDetails; // Retorna o herói detalhado
 }
 
-
-// Função para atualizar a contagem de chaves na interface
-function updateKeyCount() {
-    document.getElementById('keys-available').textContent = keysAvailable;
-
-    // Habilita o botão de resgatar herói se houver chaves disponíveis
-    document.getElementById('rescue-button').disabled = keysAvailable <= 0;
-}
-
+// Função para atribuir raridade ao herói
 function assignRarity(power) {
     if (power > 80) {
-        return "lendário"; // Poder acima de 80 é lendário
-    } else if (power >= 75) {
-        return "heroico"; // Poder de 70 a 80 é heroico
+        return "lendário";
+    } else if (power >= 50) {
+        return "heroico";
     } else {
-        return "comum"; // Poder abaixo de 70 é comum
+        return "comum";
     }
 }
 
+// Chama as funções quando a página é carregada
+window.onload = function () {
+    loadHeroesFromStorage();
+    updateKeyCount();
+    updateRescuedHeroesList();
+};
 
 
     </script>
