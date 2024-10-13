@@ -1,3 +1,18 @@
+/* Variáveis de Cores */
+:root {
+    --cor-fundo-body: #2f2a29;
+    --cor-fundo-container: #5a4b4a;
+    --cor-texto-branco: #fff;
+    --cor-dourado: #cba83d;
+    --cor-dourado-escuro: #b89b32;
+    --cor-vermelho: red;
+    --cor-ouro: gold;
+    --cor-cinza: gray;
+    --cor-borda: #cba83d;
+    --cor-sombra: rgba(0, 0, 0, 0.5);
+}
+
+/* Estilos Gerais */
 * {
     margin: 0;
     padding: 0;
@@ -6,48 +21,52 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #2f2a29; /* Cor escura para o fundo */
-    color: #fff; /* Texto branco */
+    background-color: var(--cor-fundo-body);
+    color: var(--cor-texto-branco);
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh; /* Usar min-height para garantir que o conteúdo se expanda em telas pequenas */
+    min-height: 100vh;
     padding: 10px;
 }
 
 .container {
-    background-color: #5a4b4a; /* Um tom de cinza escuro */
+    background-color: var(--cor-fundo-container);
     border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 15px var(--cor-sombra);
     padding: 20px;
     width: 100%;
-    max-width: 400px; /* Limite máximo de largura para desktops */
+    max-width: 400px;
     text-align: center;
-    border: 2px solid #a52a2a; /* Borda vermelha escura */
+    border: 2px solid var(--cor-borda);
 }
 
+/* Títulos */
 h1 {
     margin-bottom: 20px;
-    color: #cba83d; /* Dourado */
+    color: var(--cor-dourado);
 }
 
-#hero-box {
-    margin-bottom: 20px;
-}
-
-#rescue-btn {
-    background-color: #cba83d; /* Dourado */
-    color: #2f2a29; /* Cor de texto escura */
-    padding: 10px 20px;
+/* Botões */
+button {
+    background-color: var(--cor-dourado);
+    color: var(--cor-fundo-body);
     border: none;
-    border-radius: 5px;
+    padding: 10px 20px;
     cursor: pointer;
-    font-size: 16px;
+    border-radius: 5px;
+    font-size: 1em;
+    margin: 10px 0;
     transition: background-color 0.3s ease;
 }
 
-#rescue-btn:hover {
-    background-color: #b89b32; /* Dourado escuro ao passar o mouse */
+button:hover {
+    background-color: var(--cor-dourado-escuro);
+}
+
+/* Seção dos Heróis */
+#hero-box {
+    margin-bottom: 20px;
 }
 
 #user-heroes {
@@ -56,16 +75,38 @@ h1 {
 
 #heroes-list {
     list-style-type: none;
+    padding: 0;
 }
 
 #heroes-list li {
-    background-color: #7a6f6e; /* Tom mais claro de cinza */
-    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
     padding: 10px;
+    background-color: var(--cor-fundo-container);
+    border: 1px solid var(--cor-borda);
     border-radius: 5px;
-    border: 1px solid #cba83d; /* Borda dourada */
 }
 
+#heroes-list li img {
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+/* Cores dos Heróis */
+.heroic {
+    color: var(--cor-vermelho);
+}
+
+.legendary {
+    color: var(--cor-ouro);
+}
+
+.common {
+    color: var(--cor-cinza);
+}
+
+/* Ações JSON */
 #json-actions {
     margin-top: 20px;
 }
@@ -75,75 +116,31 @@ h1 {
     padding: 5px;
 }
 
+/* Mensagens de Feedback */
 #feedback-message {
     margin-top: 20px;
     padding: 10px;
     font-weight: bold;
-    color: #cba83d; /* Dourado */
+    color: var(--cor-dourado);
 }
 
 #error-message {
     color: red;
 }
 
-ul#heroes-list {
-    list-style-type: none;
-    padding: 0;
-}
-
-ul#heroes-list li {
-    display: flex;
-    align-items: center;
-    margin: 10px 0;
-    padding: 10px;
-    background-color: #5a4b4a; /* Fundo dos heróis */
-    border: 1px solid #cba83d; /* Borda dourada */
-}
-
-ul#heroes-list li img {
-    border-radius: 50%; /* Para deixar a imagem redonda */
-    margin-right: 15px;
-}
-
-.heroic {
-    color: red; /* Vermelho para heróis heroicos */
-}
-
-.legendary {
-    color: gold; /* Dourado para heróis lendários */
-}
-
-.common {
-    color: gray; /* Cinza para heróis comuns */
-}
-
-button {
-    background-color: #cba83d; /* Dourado */
-    color: #2f2a29; /* Texto escuro */
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 5px;
-    font-size: 1em;
-    margin: 10px 0;
-}
-
-button:hover {
-    background-color: #b89b32; /* Dourado escuro ao passar o mouse */
-}
-
+/* Media Queries */
 @media (max-width: 600px) {
     body {
         padding: 10px;
     }
 
-    ul#heroes-list li {
-        flex-direction: column; /* Empilha a imagem e o texto em telas pequenas */
+    #heroes-list li {
+        flex-direction: column;
         align-items: flex-start;
     }
 
-    ul#heroes-list li img {
-        margin: 0 0 10px 0; /* Margem apenas em baixo */
+    #heroes-list li img {
+        margin: 0 0 10px 0;
     }
 }
 
@@ -152,7 +149,7 @@ button:hover {
         padding: 40px;
     }
     
-    ul#heroes-list li {
+    #heroes-list li {
         padding: 15px;
     }
     

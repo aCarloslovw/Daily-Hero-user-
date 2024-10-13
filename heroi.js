@@ -52,10 +52,11 @@ function assignRarity(power) {
 // Verifica se o usuário já resgatou um herói
 function checkHeroRescue() {
     const heroRescued = localStorage.getItem('heroRescued');
+    const rescueDate = localStorage.getItem('rescueDate');
+    const today = new Date().toISOString().split('T')[0]; // Pega a data atual no formato YYYY-MM-DD
 
-    if (heroRescued === 'true') {
-        document.getElementById('hero-message').innerText = "Você já resgatou um herói!";
-        return false; // Impede o resgate
+    if (heroRescued === 'true' && rescueDate && rescueDate.split('T')[0] === today) {
+        return false; // Impede o resgate se já resgatou hoje
     }
 
     return true; // Permite resgatar
@@ -63,7 +64,11 @@ function checkHeroRescue() {
 
 // Resgata o herói e salva no localStorage
 function rescueHero() {
-    //if (!checkHeroRescue()) {showFeedback("Você já resgatou um herói!", true);return;}
+    const canRescue = checkHeroRescue();
+    if (!canRescue) {
+        showFeedback("Você já resgatou um herói hoje!", true);
+        return; // Impede o resgate se já resgatou hoje
+    }
 
     const hero = getRandomHero();
     if (!hero) {
@@ -78,13 +83,20 @@ function rescueHero() {
     heroDetails.rarity = assignRarity(heroDetails.power);
 
     let userHeroes = JSON.parse(localStorage.getItem('userHeroes')) || [];
-    userHeroes.push(heroDetails); // Adiciona o herói com detalhes
+    
+    // Limpa a lista de heróis exibidos
+    document.getElementById('heroes-list').innerHTML = "";
+
+    // Adiciona o novo herói com detalhes
+    userHeroes.push(heroDetails);
     localStorage.setItem('userHeroes', JSON.stringify(userHeroes));
     localStorage.setItem('heroRescued', 'true'); // Marca que um herói foi resgatado
+    localStorage.setItem('rescueDate', new Date().toISOString()); // Armazena a data do resgate
 
     document.getElementById('hero-message').innerText = `Você resgatou: ${heroDetails.name}`;
-    updateHeroList();
+    updateHeroList(); // Atualiza a lista de heróis do usuário
 }
+
 
 // Carrega os heróis do usuário e atualiza a lista
 function loadUserHeroes() {
@@ -183,3 +195,18 @@ window.onload = function () {
 function goToHeroBank() {
     window.location.href = 'banco-herois.html'; // Altere o nome do arquivo conforme necessário
 };
+
+// Função para limpar o histórico de heróis
+// Função para limpar o histórico de heróis exibidos
+function clearHeroHistory() {
+    // Limpa a lista de heróis exibida
+    const heroesList = document.getElementById('heroes-list');
+    heroesList.innerHTML = ""; // Remove todos os heróis da lista exibida
+
+    // Mensagem de feedback
+    showFeedback("Histórico de heróis exibidos limpo!");
+}
+
+
+// Adiciona um ouvinte de eventos ao botão
+document.getElementById('clear-history-button').addEventListener('click', clearHeroHistory);
