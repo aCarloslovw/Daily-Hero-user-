@@ -34,6 +34,7 @@ function loadUserHeroes() {
                 <div class="hero-attribute">Poder: ${hero.power}</div>
                 <div class="hero-attribute">Descrição: ${hero.description}</div>
                 <div class="hero-attribute">Habilidade: ${hero.skill}</div>
+                <div class="hero-attribute">HP: ${hero.hp}</div> <!-- Adiciona a exibição do HP -->
             </div>
         `;
 
