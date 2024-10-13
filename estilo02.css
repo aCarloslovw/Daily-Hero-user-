@@ -1,3 +1,66 @@
+.hero-card {
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    width: 220px; /* Largura da carta ajustada */
+    margin: 15px; /* Margem entre as cartas */
+    padding: 15px; /* Aumenta o padding */
+    text-align: center;
+    background-color: #1e1e1e; /* Mudança na cor de fundo */
+    color: #fff; /* Cor do texto */
+    transition: transform 0.2s; /* Efeito de transição */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Sombra mais suave */
+}
+.hero-card:hover {
+    transform: scale(1.05); /* Aumenta a carta ao passar o mouse */
+}
+.hero-card img {
+    width: 100%; /* Ajusta a imagem para a largura da carta */
+    height: auto; /* Mantém a proporção da imagem */
+    border-radius: 8px;
+    margin-bottom: 10px; /* Espaço abaixo da imagem */
+}
+
+.hero-card .hero-title {
+    font-size: 1.2em; /* Aumenta o tamanho do texto do título */
+}
+
+.lendario {
+    color: gold; /* Cor dourada para lendário */
+}
+
+.heroico {
+    color: red; /* Cor vermelha para heroico */
+}
+
+.comum {
+    color: gray; /* Cor cinza para comum */
+}
+
+.hero-title {
+    font-weight: bold;
+    font-size: 1.2em;
+    margin: 5px 0;
+}
+
+.hero-rarity {
+    font-style: italic;
+    color: #555;
+}
+
+.hero-attribute {
+    margin: 5px 0;
+    font-size: 0.9em;
+}
+
+#heroes-list {
+    display: flex;
+    flex-wrap: wrap; /* Permite que as cartas se ajustem na linha */
+    justify-content: center; /* Centraliza as cartas */
+    padding: 0; /* Remove o padding padrão da lista */
+    margin: 0; /* Remove a margem padrão da lista */
+    list-style-type: none; /* Remove os marcadores da lista */
+}
+
 * {
     margin: 0;
     padding: 0;

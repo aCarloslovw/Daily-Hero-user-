@@ -4,7 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resgate seu Herói</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="estilo.css">
+    <style>
+        /* Estilos adicionais para as cartas de herói */
+        .hero-card {
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            width: 200px; /* Largura da carta */
+            margin: 10px;
+            padding: 10px;
+            display: inline-block;
+            text-align: center;
+            background-color: #0a0a0a;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero-card img {
+            width: 100%; /* Ajusta a imagem para a largura da carta */
+            border-radius: 8px;
+        }
+
+        .hero-title {
+            font-weight: bold;
+            font-size: 1.2em;
+            margin: 5px 0;
+        }
+
+        .hero-rarity {
+            font-style: italic;
+            color: #555;
+        }
+
+        .hero-attribute {
+            margin: 5px 0;
+            font-size: 0.9em;
+        }
+
+        #heroes-list {
+            display: flex;
+            flex-wrap: wrap; /* Permite que as cartas se ajustem na linha */
+            justify-content: center; /* Centraliza as cartas */
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -12,10 +53,13 @@
         <div id="hero-box">
             <h2 id="hero-message">Resgate um novo herói!</h2>
             <button id="rescue-btn" onclick="rescueHero()">Resgatar Herói</button>
+            <button id="bank-btn" onclick="goToHeroBank()">Banco de Heróis</button>
         </div>
         <div id="user-heroes">
             <h2>Seus Heróis:</h2>
-            <ul id="heroes-list"></ul>
+            <div id="heroes-list">
+                <!-- Os heróis serão gerados aqui pelo JavaScript -->
+            </div>
         </div>
         <div id="json-actions">
             <button onclick="exportHeroes()">Exportar JSON</button>
@@ -26,4 +70,5 @@
 
     <script src="heroi.js"></script>
 </body>
+
 </html>
