@@ -210,3 +210,11 @@ function clearHeroHistory() {
 
 // Adiciona um ouvinte de eventos ao botão
 document.getElementById('clear-history-button').addEventListener('click', clearHeroHistory);
+
+function goToBossFight() {
+    // Lógica para ir à área de luta contra o Boss
+    alert("Você está indo para a luta contra o Boss!");
+    // Aqui você pode redirecionar para uma nova página ou abrir a interface de luta
+    // Exemplo de redirecionamento:
+    window.location.href = 'boss-fight.html';
+}

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luta Contra o Boss</title>
+    <style>
+       /* Variáveis de Cores */
+:root {
+    --cor-fundo-body: #2f2a29;
+    --cor-fundo-container: #5a4b4a;
+    --cor-texto-branco: #fff;
+    --cor-dourado: #cba83d;
+    --cor-dourado-escuro: #b89b32;
+    --cor-vermelho: red;
+    --cor-ouro: gold;
+    --cor-cinza: gray;
+    --cor-borda: #cba83d;
+    --cor-sombra: rgba(0, 0, 0, 0.5);
+}
+
+.heroic {
+    color: var(--cor-vermelho);
+}
+
+.legendary {
+    color: var(--cor-ouro);
+}
+
+.common {
+    color: var(--cor-cinza);
+}
+
+/* Estilos Gerais */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--cor-fundo-body);
+    color: var(--cor-texto-branco);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 10px;
+}
+
+.container {
+    background-color: var(--cor-fundo-container);
+    border-radius: 10px;
+    box-shadow: 0 0 15px var(--cor-sombra);
+    padding: 20px;
+    width: 100%;
+    max-width: 800px;
+    text-align: center;
+    border: 2px solid var(--cor-borda);
+}
+
+/* Títulos */
+h1 {
+    margin-bottom: 20px;
+    color: var(--cor-dourado);
+    font-size: 2.5em;
+}
+
+/* Boss e Heróis */
+.boss, .hero {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.boss img, .hero img {
+    max-width: 150px;
+    border: 2px solid var(--cor-borda);
+    border-radius: 10px;
+}
+
+.boss .info, .hero .info {
+    text-align: left;
+}
+
+/* Botões */
+button, .fight-btn {
+    background-color: var(--cor-dourado);
+    color: var(--cor-fundo-body);
+    border: none;
+    padding: 15px 25px;
+    font-size: 1.5em;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover, .fight-btn:hover {
+    background-color: var(--cor-dourado-escuro);
+}
+
+/* Seção de Seleção de Herói */
+#hero-selection {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.hero-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.hero-card {
+    background-color: var(--cor-fundo-container);
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border: 1px solid var(--cor-borda);
+}
+
+.hero-card:hover {
+    background-color: var(--cor-dourado-escuro);
+}
+
+.hero-card img {
+    max-width: 80px;
+    margin-bottom: 10px;
+}
+
+/* Mensagem de Resultado */
+#battle-result {
+    margin-top: 20px;
+    padding: 10px;
+    font-weight: bold;
+    color: var(--cor-dourado);
+}
+
+/* Media Queries */
+@media (max-width: 600px) {
+    .boss, .hero {
+        flex-direction: column;
+    }
+
+    .boss img, .hero img {
+        margin-bottom: 10px;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Batalha Contra o Boss</h1>
+
+        <div class="boss">
+            <div class="info">
+                <h2>Boss: Dragão Ancião</h2>
+                <p><strong>Poder:</strong> 100</p>
+                <p><strong>Descrição:</strong> Um dragão ancestral com poderes devastadores.</p>
+            </div>
+            <img src="https://th.bing.com/th/id/OIG1.SHGpX8lJLruWVPCG0qAP?pid=ImgGn" alt="Dragão Ancião">
+        </div>
+
+        <!-- Seção para selecionar o herói -->
+        <div class="hero">
+            <div class="info">
+                <h2>Selecione Seu Herói:</h2>
+                <p><strong id="hero-name">Nenhum herói selecionado</strong></p>
+                <p><strong>Poder:</strong> <span id="hero-power">0</span></p>
+                <p><strong>Habilidade:</strong> <span id="hero-skill">N/A</span></p>
+            </div>
+            <img id="hero-image" src="https://via.placeholder.com/150" alt="Herói">
+        </div>
+
+        <button class="fight-btn" onclick="showHeroSelection()">Escolher Herói</button>
+
+        <div id="hero-selection">
+            <h2>Escolha um herói do seu banco:</h2>
+            <div class="hero-list" id="hero-list">
+                <!-- Heróis do banco serão gerados aqui -->
+            </div>
+        </div>
+
+        <button class="fight-btn" onclick="startBattle()">Lutar!</button>
+
+        <div id="battle-result" style="margin-top: 20px;"></div>
+    </div>
+
+    <script>
+        function loadHeroesFromStorage() {
+    const storedHeroes = JSON.parse(localStorage.getItem('userHeroes')) || [];
+    return storedHeroes;
+}
+
+let selectedHero = null;
+
+// Função para mostrar o banco de heróis
+function showHeroSelection() {
+    const heroSelection = document.getElementById('hero-selection');
+    const heroList = document.getElementById('hero-list');
+    heroList.innerHTML = ''; // Limpa a lista antes de gerar os heróis
+
+    const storedHeroes = loadHeroesFromStorage(); // Carrega heróis do localStorage
+
+    storedHeroes.forEach(hero => {
+        const heroCard = document.createElement('div');
+        heroCard.classList.add('hero-card');
+
+        // Define a cor com base na raridade
+        let rarityColor;
+        switch (hero.rarity) {
+            case "lendário":
+                rarityColor = "gold"; // Cor dourada para lendário
+                break;
+            case "heroico":
+                rarityColor = "red"; // Cor vermelha para heroico
+                break;
+            case "comum":
+                rarityColor = "gray"; // Cor cinza para comum
+                break;
+            default:
+                rarityColor = "black"; // Cor padrão
+        }
+
+        // Aplica a cor ao nome do herói
+        heroCard.innerHTML = `
+            <img src="${hero.image}" alt="${hero.name}">
+            <h3 style="color: ${rarityColor};">${hero.name}</h3>
+            <p>Poder: ${hero.power}</p>
+        `;
+        heroCard.onclick = () => selectHero(hero);
+        heroList.appendChild(heroCard);
+    });
+
+    heroSelection.style.display = 'flex';
+}
+
+
+// Função para selecionar o herói
+function selectHero(hero) {
+    selectedHero = hero;
+    document.getElementById('hero-name').textContent = hero.name;
+    document.getElementById('hero-power').textContent = hero.power;
+    document.getElementById('hero-skill').textContent = hero.skill;
+    document.getElementById('hero-image').src = hero.image;
+
+    // Esconde a lista de heróis após a seleção
+    document.getElementById('hero-selection').style.display = 'none';
+}
+
+// Função para iniciar a batalha
+function startBattle() {
+    const bossPower = 100;
+    const battleResult = document.getElementById('battle-result');
+
+    if (selectedHero) {
+        const heroPower = selectedHero.power;
+        if (heroPower >= bossPower) {
+            battleResult.innerHTML = "<h2>Você venceu!</h2><p>Seu herói derrotou o Dragão Ancião!</p>";
+        } else {
+            battleResult.innerHTML = "<h2>Você perdeu...</h2><p>O Dragão Ancião foi forte demais.</p>";
+        }
+    } else {
+        battleResult.innerHTML = "<h2>Escolha um herói primeiro!</h2>";
+    }
+}
+
+    </script>
+</body>
+</html>
