@@ -194,6 +194,7 @@ button:hover, .fight-btn:hover {
     text-align: center;
     border: 1px solid var(--cor-borda);
     transition: background-color 0.3s, transform 0.3s; /* Transições suaves */
+    width: 150px; /* Largura fixa para as cartas */
 }
 
 .rescued-hero-card:hover {
@@ -233,6 +234,25 @@ button:hover, .fight-btn:hover {
     .boss img, .hero img {
         margin-bottom: 10px;
     }
+    #rescued-heroes-section {
+        padding: 15px; /* Reduzir o padding para telas menores */
+    }
+
+    .rescued-heroes-list {
+        justify-content: center; /* Mantém a centralização em telas menores */
+    }
+
+    .rescued-hero-card {
+        width: 80%; /* Faz as cartas ocuparem 80% da largura em telas pequenas */
+        max-width: 200px; /* Limita a largura máxima das cartas */
+        margin: 5px; /* Ajusta a margem para um espaçamento mais apertado */
+    }
+
+    #rescued-heroes-section h2 {
+        font-size: 1.5em; /* Reduz o tamanho do título em telas menores */
+    }
+
+
 }
 
     </style>
