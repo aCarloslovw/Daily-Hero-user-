@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resgate seu Herói</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Resgate Diário de Heróis</h1>
+        <div id="hero-box">
+            <h2 id="hero-message">Resgate um novo herói!</h2>
+            <button id="rescue-btn" onclick="rescueHero()">Resgatar Herói</button>
+        </div>
+        <div id="user-heroes">
+            <h2>Seus Heróis:</h2>
+            <ul id="heroes-list"></ul>
+        </div>
+        <div id="json-actions">
+            <button onclick="exportHeroes()">Exportar JSON</button>
+            <input type="file" id="file-input" accept=".json" onchange="importHeroes(event)" />
+        </div>
+        <div id="feedback-message"></div>
+    </div>
+
+    <script src="heroi.js"></script>
+</body>
+</html>

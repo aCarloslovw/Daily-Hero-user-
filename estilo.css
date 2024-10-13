@@ -1,0 +1,84 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f5;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+h1 {
+    margin-bottom: 20px;
+    color: #4a90e2;
+}
+
+#hero-box {
+    margin-bottom: 20px;
+}
+
+#rescue-btn {
+    background-color: #4a90e2;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+#rescue-btn:hover {
+    background-color: #357ab7;
+}
+
+#user-heroes {
+    margin-top: 20px;
+}
+
+#heroes-list {
+    list-style-type: none;
+}
+
+#heroes-list li {
+    background-color: #e0e0e0;
+    margin-bottom: 5px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#json-actions {
+    margin-top: 20px;
+}
+
+#file-input {
+    margin-top: 10px;
+    padding: 5px;
+}
+
+#feedback-message {
+    margin-top: 20px;
+    padding: 10px;
+    font-weight: bold;
+    color: green;
+}
+
+#error-message {
+    color: red;
+}
