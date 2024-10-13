@@ -63,7 +63,7 @@ function checkHeroRescue() {
 
 // Resgata o herói e salva no localStorage
 function rescueHero() {
-    if (!checkHeroRescue()) {showFeedback("Você já resgatou um herói!", true);return;}
+    //if (!checkHeroRescue()) {showFeedback("Você já resgatou um herói!", true);return;}
 
     const hero = getRandomHero();
     if (!hero) {
