@@ -7,6 +7,7 @@
 let selectedHero = null; // Variável para armazenar o herói selecionado
 let keysAvailable = 0; // Inicializa o contador de chaves
 let rescuedHeroes = []; // Array para armazenar os heróis resgatados
+let defeatedHeroes = [];
 
 // Função para mostrar o banco de heróis
 function showHeroSelection() {
@@ -52,9 +53,15 @@ function showHeroSelection() {
 
 // Função para selecionar o herói
 function selectHero(hero) {
+    // Verifica se o herói está na lista de derrotados
+    if (defeatedHeroes.includes(hero.id)) {
+        showCustomAlert("Este herói foi derrotado e não pode ser selecionado novamente.");
+        return; // Impede a seleção do herói derrotado
+    }
+
     // Verifica se o herói tem HP válido (diferente de undefined, null, ou 0)
     if (!hero.hp || hero.hp <= 0) {
-        alert("Herói inválido: sem pontos de vida."); // Exibe uma mensagem de erro
+        showCustomAlert("Herói inválido: sem pontos de vida."); // Exibe uma mensagem de erro
         return; // Impede a seleção do herói
     }
 
@@ -69,6 +76,7 @@ function selectHero(hero) {
 }
 
 
+
 let bossHp = 100; // HP do boss fora da função para persistência
 
 // Função para iniciar a batalha
@@ -77,10 +85,14 @@ function startBattle() {
 
     // Verifica se um herói foi selecionado
     if (!selectedHero) {
-        alert("Por favor, selecione um herói antes de lutar!");
+        showCustomAlert("Por favor, selecione um herói antes de lutar!");
         return;
     }
 
+    if (defeatedHeroes.includes(selectedHero.id)) {
+        showCustomAlert("Este herói foi derrotado e não pode ser selecionado novamente.");
+        return; // Impede a função de continuar
+    }   
     const bossPower = 100; // Poder do boss
     const heroPower = selectedHero.power; // Poder do herói
     let heroHp = selectedHero.hp; // HP do herói
@@ -110,13 +122,17 @@ function startBattle() {
 
             if (heroHp <= 0) {
                 document.getElementById('battle-result').textContent = `${selectedHero.name} foi derrotado pelo Dragão Ancião!`;
-                return; // Encerra a batalha
+                
+                // Marca o herói como derrotado
+                defeatedHeroes.push(selectedHero.id);
+                console.log(`Herói derrotado: ${selectedHero.name}`);
+                return; //Encerra a batalha
             }
 
             setTimeout(turn, 1000); // Próximo turno
         }, 1000);
     }
-
+            
     // Atualiza a exibição de HP
     function updateHpDisplay() {
         const bossHpElement = document.getElementById('boss-hp');
@@ -140,6 +156,20 @@ function startBattle() {
     turn(); // Inicia o primeiro turno
 }
 
+function displayAvailableHeroes(heroes) {
+    const heroContainer = document.getElementById('hero-container');
+    heroContainer.innerHTML = ''; // Limpa a exibição anterior
+
+    // Filtra os heróis que não estão na lista de derrotados
+    const availableHeroes = heroes.filter(hero => !defeatedHeroes.includes(hero.id));
+
+    availableHeroes.forEach(hero => {
+        const heroElement = document.createElement('div');
+        heroElement.textContent = hero.name;
+        heroElement.onclick = () => selectHero(hero); // Seleciona o herói ao clicar
+        heroContainer.appendChild(heroElement);
+    });
+}
 // Função para atualizar a contagem de chaves na interface
 function updateKeyCount() {
     document.getElementById('keys-available').textContent = keysAvailable;
@@ -163,7 +193,7 @@ function rescueHero() {
         keysAvailable--;
         updateKeyCount(); // Atualiza a exibição das chaves disponíveis
     } else {
-        alert("Você não tem chaves suficientes para resgatar um novo herói.");
+        showCustomAlert("Você não tem chaves suficientes para resgatar um novo herói.");
     }
 }
 
@@ -262,6 +292,29 @@ function assignRarity(power) {
         return "comum";
     }
 }
+
+// Função para abrir o modal com uma mensagem personalizada
+function showCustomAlert(message) {
+    const modal = document.getElementById("custom-alert");
+    const modalMessage = document.getElementById("modal-message");
+    modalMessage.textContent = message;
+    modal.style.display = "block"; // Exibe o modal
+}
+
+// Função para fechar o modal
+document.getElementById("close-modal").onclick = function() {
+    document.getElementById("custom-alert").style.display = "none";
+}
+
+// Fecha o modal se clicar fora da área do conteúdo
+window.onclick = function(event) {
+    const modal = document.getElementById("custom-alert");
+    if (event.target === modal) {
+        modal.style.display = "none";
+    }
+}
+
+
 
 // Chama as funções quando a página é carregada
 window.onload = function () {

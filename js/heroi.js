@@ -64,10 +64,10 @@ function checkHeroRescue() {
 
 function rescueHero() {
     const canRescue = checkHeroRescue();
-    if (!canRescue) {
-        showFeedback("Você já resgatou um herói hoje!", true);
-       return; // Impede o resgate se já resgatou hoje
-    }
+    //if (!canRescue) {
+        //showFeedback("Você já resgatou um herói hoje!", true);
+       //return; // Impede o resgate se já resgatou hoje
+    //}
 
     const hero = getRandomHero();
     if (!hero) {
@@ -226,8 +226,31 @@ document.getElementById('clear-history-button').addEventListener('click', clearH
 
 function goToBossFight() {
     // Lógica para ir à área de luta contra o Boss
-    alert("Você está indo para a luta contra o Boss!");
-    // Aqui você pode redirecionar para uma nova página ou abrir a interface de luta
-    // Exemplo de redirecionamento:
-    window.location.href = 'boss-fight.html';
+    showCustomAlert("Você está indo para a luta contra o Boss!");
+
+    // Redirecionamento para a nova página após alguns segundos
+    setTimeout(() => {
+        window.location.href = 'boss-fight.html';
+    }, 500); // Espera 2 segundos antes de redirecionar
+}
+
+// Função para abrir o modal com uma mensagem personalizada
+function showCustomAlert(message) {
+    const modal = document.getElementById("custom-alert");
+    const modalMessage = document.getElementById("modal-message");
+    modalMessage.textContent = message;
+    modal.style.display = "block"; // Exibe o modal
+}
+
+// Função para fechar o modal
+document.getElementById("close-modal").onclick = function() {
+    document.getElementById("custom-alert").style.display = "none";
+}
+
+// Fecha o modal se clicar fora da área do conteúdo
+window.onclick = function(event) {
+    const modal = document.getElementById("custom-alert");
+    if (event.target === modal) {
+        modal.style.display = "none";
+    }
 }
