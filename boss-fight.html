@@ -475,52 +475,53 @@ function selectHero(hero) {
     document.getElementById('hero-selection').style.display = 'none';
 }
 
+let bossHp = 100; // HP do boss fora da função para persistência
+
 // Função para iniciar a batalha
-    function startBattle() {
-        console.log("A função startBattle foi chamada.");
-        
-        // Verifica se um herói foi selecionado
-        if (!selectedHero) {
-            alert("Por favor, selecione um herói antes de lutar!");
-            return;
-        }
+function startBattle() {
+    console.log("A função startBattle foi chamada.");
 
-        let bossHp = 100; // HP do boss
-        const bossPower = 100; // Poder do boss
-        const heroPower = selectedHero.power; // Poder do herói
-        let heroHp = selectedHero.hp; // HP do herói
+    // Verifica se um herói foi selecionado
+    if (!selectedHero) {
+        alert("Por favor, selecione um herói antes de lutar!");
+        return;
+    }
 
-        // Função que realiza a batalha em turnos
-        function turn() {
-            bossHp -= heroPower; // Dano ao boss
-            updateHpDisplay();
-            document.querySelector('.boss').classList.add('attack'); // Adiciona animação de ataque
+    const bossPower = 100; // Poder do boss
+    const heroPower = selectedHero.power; // Poder do herói
+    let heroHp = selectedHero.hp; // HP do herói
 
-            if (bossHp <= 0) {
+    // Função que realiza a batalha em turnos
+    function turn() {
+        bossHp -= heroPower; // Dano ao boss
+        updateHpDisplay();
+        document.querySelector('.boss').classList.add('attack'); // Adiciona animação de ataque
+
+        if (bossHp <= 0) {
             document.getElementById('battle-result').textContent = `${selectedHero.name} venceu o Dragão Ancião!`;
 
-                    // Adiciona a animação ao herói
-                    document.querySelector('.hero').classList.add('win');
+            // Adiciona a animação ao herói
+            document.querySelector('.hero').classList.add('win');
 
-                    keysAvailable++; // Incrementa o contador de chaves ao vencer o boss
-                    updateKeyCount(); // Atualiza a exibição de chaves
-                    return; // Encerra a batalha
+            keysAvailable++; // Incrementa o contador de chaves ao vencer o boss
+            updateKeyCount(); // Atualiza a exibição de chaves
+            return; // Encerra a batalha
+        }
+
+        // O boss ataca o herói
+        setTimeout(() => {
+            heroHp -= bossPower; // Dano do boss
+            updateHpDisplay();
+            document.querySelector('.hero').classList.add('attack'); // Adiciona animação de ataque
+
+            if (heroHp <= 0) {
+                document.getElementById('battle-result').textContent = `${selectedHero.name} foi derrotado pelo Dragão Ancião!`;
+                return; // Encerra a batalha
             }
 
-            // O boss ataca o herói
-            setTimeout(() => {
-                heroHp -= bossPower; // Dano do boss
-                updateHpDisplay();
-                document.querySelector('.hero').classList.add('attack'); // Adiciona animação de ataque
-
-                if (heroHp <= 0) {
-                    document.getElementById('battle-result').textContent = `${selectedHero.name} foi derrotado pelo Dragão Ancião!`;
-                    return; // Encerra a batalha
-                }
-
-                setTimeout(turn, 1000); // Próximo turno
-            }, 1000);
-        }
+            setTimeout(turn, 1000); // Próximo turno
+        }, 1000);
+    }
 
     // Atualiza a exibição de HP
     function updateHpDisplay() {
