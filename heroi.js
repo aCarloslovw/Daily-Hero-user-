@@ -65,10 +65,10 @@ function checkHeroRescue() {
 // Resgata o herói e salva no localStorage
 function rescueHero() {
     const canRescue = checkHeroRescue();
-    //if (!canRescue) {
-        //showFeedback("Você já resgatou um herói hoje!", true);
-        //return; // Impede o resgate se já resgatou hoje
-   //}
+    if (!canRescue) {
+        showFeedback("Você já resgatou um herói hoje!", true);
+        return; // Impede o resgate se já resgatou hoje
+   }
 
     const hero = getRandomHero();
     if (!hero) {
