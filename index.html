@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resgate seu Herói</title>
-    <link rel="stylesheet" href="estilo.css">
+    <link rel="stylesheet" href="/css/estilo.css">
     <style>
         /* Estilos adicionais para as cartas de herói */
         .hero-card {
@@ -50,28 +50,38 @@
 <body>
     <div class="container">
         <h1>Resgate Diário de Heróis</h1>
-        <div id="hero-box">
+
+        <!-- Seção de Resgate de Herói -->
+        <section id="hero-rescue-section" class="section-box">
             <h2 id="hero-message">Resgate um novo herói!</h2>
-            <button id="rescue-btn" onclick="rescueHero()">Resgatar Herói</button>
-            <button id="bank-btn" onclick="goToHeroBank()">Banco de Heróis</button>
-            <button id="clear-history-button" onclick="clearHeroHistory()">Limpar Histórico</button> <!-- Botão para limpar o histórico -->
-            <!-- Botão para ir à área de luta contra o Boss -->
-            <button id="fight-boss-btn" onclick="goToBossFight()">Lutar Contra o Boss</button>
-        </div>
-        <div id="user-heroes">
+            <button id="rescue-btn" class="main-btn" onclick="rescueHero()">Resgatar Herói</button>
+        </section>
+
+        <!-- Seção de Ações do Jogo -->
+        <section id="game-actions-section" class="section-box">
+            <button id="bank-btn" class="secondary-btn" onclick="goToHeroBank()">Banco de Heróis</button>
+            <button id="fight-boss-btn" class="secondary-btn" onclick="goToBossFight()">Lutar Contra o Boss</button>
+        </section>
+
+        <!-- Seção de Heróis do Usuário -->
+        <section id="user-heroes-section" class="section-box">
             <h2>Seus Heróis:</h2>
             <div id="heroes-list">
                 <!-- Os heróis serão gerados aqui pelo JavaScript -->
             </div>
-        </div>
-        <div id="json-actions">
-            <button onclick="exportHeroes()">Exportar JSON</button>
+        </section>
+
+        <!-- Seção de Ações JSON -->
+        <section id="json-actions-section" class="section-box">
+            <h2>Exportar/Importar Dados</h2>
+            <button class="secondary-btn" onclick="exportHeroes()">Exportar JSON</button>
             <input type="file" id="file-input" accept=".json" onchange="importHeroes(event)" />
-        </div>
+        </section>
+
         <div id="feedback-message"></div>
     </div>
-
-    <script src="heroi.js"></script>
 </body>
 
+
+<script src="/js/heroi.js"></script>
 </html>

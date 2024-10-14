@@ -12,11 +12,24 @@
     { "id": 11, "name": "Monk", "power": 65, "description": "A disciplined fighter.", "image": "https://tse4.mm.bing.net/th?id=OIG2.bXILRYsl3N_iWkmZr8_.&pid=ImgGn", "rarity": "common", "skill": "Fist of Fury", "hp": 70 },
     { "id": 12, "name": "Ranger", "power": 70, "description": "A master tracker.", "image": "https://tse2.mm.bing.net/th?id=OIG4.WbkxV68KCIc4rr2s18Ya&pid=ImgGn", "rarity": "common", "skill": "Animal Companion", "hp": 75 },
     { "id": 13, "name": "Alchemist", "power": 80, "description": "A potion brewer.", "image": "https://tse4.mm.bing.net/th?id=OIG3.y_LeR4k3ekXzyOS2h7xR&pid=ImgGn", "rarity": "heroic", "skill": "Transmute", "hp": 85 },
-    { "id": 14, "name": "Barbarian", "power": 90, "description": "A fierce warrior.", "image": "https://tse4.mm.bing.net/th?id=OIG1.6BZXkQUeoLK55vR_VwV7&pid=ImgGn", "rarity": "heroic", "skill": "Berserk Rage", "hp": 120 },
+    { "id": 14, "name": "Barbarian(Nerd)", "power": 90, "description": "A fierce warrior.", "image": "https://tse4.mm.bing.net/th?id=OIG1.6BZXkQUeoLK55vR_VwV7&pid=ImgGn", "rarity": "heroic", "skill": "Berserk Rage", "hp": 120 },
     { "id": 15, "name": "Cleric", "power": 75, "description": "A holy priest.", "image": "https://tse3.mm.bing.net/th?id=OIG4.Mi_tiB7PWkQn.U_KHcrE&pid=ImgGn", "rarity": "heroic", "skill": "Healing Light", "hp": 90 },
     { "id": 16, "name": "Wizard", "power": 88, "description": "A learned spellcaster.", "image": "https://tse4.mm.bing.net/th?id=OIG2.H_oMr6qXy2zp71xiqPHg&pid=ImgGn", "rarity": "legendary", "skill": "Time Warp", "hp": 100 },
     { "id": 17, "name": "Thief", "power": 60, "description": "A nimble criminal.", "image": "https://tse3.mm.bing.net/th?id=OIG3.OdbOkbBCkySq1Fs1xzIf&pid=ImgGn", "rarity": "common", "skill": "Pickpocket", "hp": 65 },
     { "id": 18, "name": "Beastmaster", "power": 75, "description": "A hero who commands beasts.", "image": "https://tse3.mm.bing.net/th?id=OIG2.inJcjNGdLYEKEaWOjQxH&pid=ImgGn", "rarity": "heroic", "skill": "Call of the Wild", "hp": 90 },
     { "id": 19, "name": "Summoner", "power": 85, "description": "A magic user who summons creatures.", "image": "https://tse3.mm.bing.net/th?id=OIG3.VH6QXuqSbMFK4dvRNqc4&pid=ImgGn", "rarity": "legendary", "skill": "Summon Familiar", "hp": 95 },
-    { "id": 20, "name": "Elementalist", "power": 90, "description": "A master of elements.", "image": "https://tse2.mm.bing.net/th?id=OIG3.M848BV.crRxiMBtB.BY.&pid=ImgGn", "rarity": "legendary", "skill": "Elemental Fury", "hp": 120 }
+    { "id": 20, "name": "Elementalist", "power": 90, "description": "A master of elements.", "image": "https://tse2.mm.bing.net/th?id=OIG3.M848BV.crRxiMBtB.BY.&pid=ImgGn", "rarity": "legendary", "skill": "Elemental Fury", "hp": 120 },
+    
+    { "id": 21, "name": "Frost Mage", "power": 60, "description": "A mage who commands ice.", "image": "https://tse3.mm.bing.net/th?id=OIG2.LKb5uzZ6oUFAWUxCyJHK&pid=ImgGn", "rarity": "common", "skill": "Ice Spike", "hp": 75 },
+    { "id": 22, "name": "Shadow Assassin", "power": 68, "description": "A master of stealth and shadows.", "image": "https://tse2.mm.bing.net/th?id=OIG2.kh4H_7HTeBugESXv_AhR&pid=ImgGn", "rarity": "common", "skill": "Shadow Strike", "hp": 80 },
+    { "id": 23, "name": "Earth Guardian", "power": 70, "description": "A protector of the earth.", "image": "https://tse1.mm.bing.net/th?id=OIG1.CP1.POgYFRNWA65u.yNT&pid=ImgGn", "rarity": "common", "skill": "Earth Shield", "hp": 90 },
+    { "id": 24, "name": "Wind Whisperer", "power": 65, "description": "A master of air and speed.", "image": "https://tse1.mm.bing.net/th?id=OIG1.gFCYui1wLwtGlkcxm8Qc&pid=ImgGn", "rarity": "common", "skill": "Gust", "hp": 70 },
+    { "id": 25, "name": "Spirit Healer", "power": 70, "description": "A healer connected to the spirit world.", "image": "https://th.bing.com/th/id/OIG4.l_p1fbxKWJrpBTNET71t?pid=ImgGn", "rarity": "common", "skill": "Spirit Mend", "hp": 85 },
+    { "id": 26, "name": "Mystic Seer", "power": 68, "description": "A visionary with foresight.", "image": "https://tse4.mm.bing.net/th?id=OIG2.VY90FDMRn9B21yiC4os4&pid=ImgGn", "rarity": "common", "skill": "Divination", "hp": 75 },
+    { "id": 27, "name": "Stone Fist", "power": 70, "description": "A brawler with unmatched strength.", "image": "https://tse4.mm.bing.net/th?id=OIG2.ANwkrROv_G9XK.8jipSb&pid=ImgGn", "rarity": "common", "skill": "Ground Slam", "hp": 100 }
+
+
+
+
+
 ]

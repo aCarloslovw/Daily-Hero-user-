@@ -62,13 +62,12 @@ function checkHeroRescue() {
     return true; // Permite resgatar
 }
 
-// Resgata o herói e salva no localStorage
 function rescueHero() {
     const canRescue = checkHeroRescue();
     if (!canRescue) {
         showFeedback("Você já resgatou um herói hoje!", true);
-        return; // Impede o resgate se já resgatou hoje
-   }
+       return; // Impede o resgate se já resgatou hoje
+    }
 
     const hero = getRandomHero();
     if (!hero) {
@@ -78,14 +77,11 @@ function rescueHero() {
 
     // Busca o herói completo
     const heroDetails = heroes.find(h => h.id === hero.id);
-    
+
     // Atribui raridade com base no poder do herói
     heroDetails.rarity = assignRarity(heroDetails.power);
 
     let userHeroes = JSON.parse(localStorage.getItem('userHeroes')) || [];
-    
-    // Limpa a lista de heróis exibidos
-    document.getElementById('heroes-list').innerHTML = "";
 
     // Adiciona o novo herói com detalhes
     userHeroes.push(heroDetails);
@@ -93,24 +89,38 @@ function rescueHero() {
     localStorage.setItem('heroRescued', 'true'); // Marca que um herói foi resgatado
     localStorage.setItem('rescueDate', new Date().toISOString()); // Armazena a data do resgate
 
-    document.getElementById('hero-message').innerText = `Você resgatou: ${heroDetails.name}`;
-    updateHeroList(); // Atualiza a lista de heróis do usuário
+    // Mostra mensagem do herói resgatado
+    const heroMessage = document.getElementById('hero-message');
+    heroMessage.innerText = `Você resgatou: ${heroDetails.name}`;
+
+    // Atualiza a lista de heróis do usuário e anima o novo herói
+    updateHeroList();
+
+    // Adiciona a animação ao novo herói resgatado
+    const heroesList = document.getElementById('heroes-list');
+    const latestHeroCard = heroesList.lastElementChild; // Última carta é o herói resgatado
+    latestHeroCard.classList.add('hero-rescue'); // Adiciona classe de animação
 }
 
 
+
 // Carrega os heróis do usuário e atualiza a lista
+// Carrega os heróis do usuário e exibe apenas o mais recente
 function loadUserHeroes() {
     const userHeroes = JSON.parse(localStorage.getItem('userHeroes')) || [];
     const heroesList = document.getElementById('heroes-list');
     heroesList.innerHTML = ""; // Limpa a lista existente
 
-    userHeroes.forEach(hero => {
+    if (userHeroes.length > 0) {
+        // Carrega todos os heróis, mas só exibe o mais recente
+        const latestHero = userHeroes[userHeroes.length - 1]; // Pega o herói mais recente
+
         const card = document.createElement('div');
         card.className = 'hero-card'; // Adiciona a classe da carta
 
         // Define a cor com base na raridade
         let rarityColor;
-        switch (hero.rarity) {
+        switch (latestHero.rarity) {
             case "lendário":
                 rarityColor = "gold"; // Cor dourada para lendário
                 break;
@@ -125,20 +135,21 @@ function loadUserHeroes() {
         }
 
         card.innerHTML = `
-            <img src="${hero.image}" alt="${hero.name}">
+            <img src="${latestHero.image}" alt="${latestHero.name}">
             <div class="hero-content">
-                <div class="hero-title" style="color: ${rarityColor};">${hero.name}</div>
-                <div class="hero-rarity">${hero.rarity}</div>
-                <div class="hero-attribute">Poder: ${hero.power}</div>
-                <div class="hero-attribute">Descrição: ${hero.description}</div>
-                <div class="hero-attribute">Habilidade: ${hero.skill}</div>
-                <div class="hero-attribute">HP: ${hero.hp}</div> <!-- Adiciona a exibição do HP -->
+                <div class="hero-title" style="color: ${rarityColor};">${latestHero.name}</div>
+                <div class="hero-rarity">${latestHero.rarity}</div>
+                <div class="hero-attribute">Poder: ${latestHero.power}</div>
+                <div class="hero-attribute">Descrição: ${latestHero.description}</div>
+                <div class="hero-attribute">Habilidade: ${latestHero.skill}</div>
+                <div class="hero-attribute">HP: ${latestHero.hp}</div> <!-- Exibe o HP -->
             </div>
         `;
 
-        heroesList.appendChild(card); // Adiciona a carta à lista
-    });
+        heroesList.appendChild(card); // Adiciona a carta do herói mais recente à lista
+    }
 }
+
 
 
 // Atualiza a lista de heróis do usuário

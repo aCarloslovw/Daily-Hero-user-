@@ -128,6 +128,22 @@ button:hover {
     color: red;
 }
 
+/* Animação de resgate do herói */
+@keyframes rescueAnimation {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.hero-rescue {
+    animation: rescueAnimation 1s ease-out;
+}
+
 /* Media Queries */
 @media (max-width: 600px) {
     body {
@@ -142,17 +158,22 @@ button:hover {
     #heroes-list li img {
         margin: 0 0 10px 0;
     }
+
+    button {
+        font-size: 0.9em;
+        padding: 8px 15px;
+    }
 }
 
 @media (min-width: 600px) {
     .container {
         padding: 40px;
     }
-    
+
     #heroes-list li {
         padding: 15px;
     }
-    
+
     button {
         font-size: 1.2em;
         padding: 15px 30px;
