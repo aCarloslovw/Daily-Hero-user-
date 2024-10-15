@@ -54,24 +54,24 @@ function showHeroSelection() {
 // Função para selecionar o herói
 function selectHero(hero) {
     // Verifica se o herói está na lista de derrotados
-    if (defeatedHeroes.includes(hero.id)) {
+    if (defeatedHeroes.includes(hero.name)) {
         showCustomAlert("Este herói foi derrotado e não pode ser selecionado novamente.");
         return; // Impede a seleção do herói derrotado
     }
 
-    // Verifica se o herói tem HP válido (diferente de undefined, null, ou 0)
+    // Verifica se o herói tem HP válido
     if (!hero.hp || hero.hp <= 0) {
-        showCustomAlert("Herói inválido: sem pontos de vida."); // Exibe uma mensagem de erro
-        return; // Impede a seleção do herói
+        showCustomAlert("Herói inválido: sem pontos de vida.");
+        return;
     }
 
     selectedHero = hero;
     document.getElementById('hero-name').textContent = hero.name;
     document.getElementById('hero-power').textContent = hero.power;
     document.getElementById('hero-skill').textContent = hero.skill;
-    document.getElementById('hero-hp').textContent = hero.hp; // Atualiza HP do herói
+    document.getElementById('hero-hp').textContent = hero.hp;
     document.getElementById('hero-image').src = hero.image;
-    document.getElementById('hero-hp-bar').style.width = hero.hp + '%'; // Atualiza barra de HP do herói
+    document.getElementById('hero-hp-bar').style.width = hero.hp + '%';
     document.getElementById('hero-selection').style.display = 'none';
 }
 
@@ -102,33 +102,31 @@ function startBattle() {
         bossHp -= heroPower; // Dano ao boss
         updateHpDisplay();
         document.querySelector('.boss').classList.add('attack'); // Adiciona animação de ataque
-
+    
         if (bossHp <= 0) {
             document.getElementById('battle-result').textContent = `${selectedHero.name} venceu o Dragão Ancião!`;
-
+    
             // Adiciona a animação ao herói
             document.querySelector('.hero').classList.add('win');
-
+    
             keysAvailable++; // Incrementa o contador de chaves ao vencer o boss
             updateKeyCount(); // Atualiza a exibição de chaves
             return; // Encerra a batalha
         }
-
+    
         // O boss ataca o herói
         setTimeout(() => {
             heroHp -= bossPower; // Dano do boss
             updateHpDisplay();
             document.querySelector('.hero').classList.add('attack'); // Adiciona animação de ataque
-
+    
             if (heroHp <= 0) {
                 document.getElementById('battle-result').textContent = `${selectedHero.name} foi derrotado pelo Dragão Ancião!`;
                 
-                // Marca o herói como derrotado
-                defeatedHeroes.push(selectedHero.id);
-                console.log(`Herói derrotado: ${selectedHero.name}`);
-                return; //Encerra a batalha
+                derrotarHeroi(selectedHero); // Chama a função para marcar o herói como derrotado
+                return; // Encerra a batalha
             }
-
+    
             setTimeout(turn, 1000); // Próximo turno
         }, 1000);
     }
@@ -155,6 +153,21 @@ function startBattle() {
 
     turn(); // Inicia o primeiro turno
 }
+
+
+function derrotarHeroi(selectedHero) {
+    // Verifica se o herói já foi derrotado pelo uniqueId
+    if (!defeatedHeroes.includes(selectedHero.uniqueId)) {
+        defeatedHeroes.push(selectedHero.uniqueId);
+        console.log(`Herói derrotado: ${selectedHero.name} (ID: ${selectedHero.uniqueId})`);
+    } else {
+        console.log(`Herói ${selectedHero.name} (ID: ${selectedHero.uniqueId}) já foi derrotado.`);
+    }
+    
+    return; // Encerra a batalha
+}
+
+
 
 function displayAvailableHeroes(heroes) {
     const heroContainer = document.getElementById('hero-container');
@@ -251,9 +264,9 @@ function updateRescuedHeroesList() {
 // Função para obter um herói aleatório
 function getRandomHero() {
     const heroes = [
-        { name: "Baby Dragon", power: 20, skill: "Corte Poderoso", hp: 50, image: "https://th.bing.com/th/id/OIG3.FSFYb04IkPf3bieUvP_A?w=1024&h=1024&rs=1&pid=ImgDetMain" },
-        { name: "Cavaleiro Dragão", power: 80, skill: "Fogo Mágico", hp: 85, image: "https://tse4.mm.bing.net/th?id=OIG2..rkR9vAnghogNT7ZXb1J&pid=ImgGn" },
-        { name: "Rei Dragão", power: 100, skill: "Kings Will", hp: 120, image: "https://tse3.mm.bing.net/th?id=OIG3.Z4nvGNc3EQEmWANRKFll&pid=ImgGn" },
+        {name: "Baby Dragon", power: 20, skill: "Corte Poderoso", hp: 50, image: "https://th.bing.com/th/id/OIG3.FSFYb04IkPf3bieUvP_A?w=1024&h=1024&rs=1&pid=ImgDetMain" },
+        {name: "Cavaleiro Dragão", power: 80, skill: "Fogo Mágico", hp: 85, image: "https://tse4.mm.bing.net/th?id=OIG2..rkR9vAnghogNT7ZXb1J&pid=ImgGn" },
+        {name: "Rei Dragão", power: 100, skill: "Kings Will", hp: 120, image: "https://tse3.mm.bing.net/th?id=OIG3.Z4nvGNc3EQEmWANRKFll&pid=ImgGn" },
     ];
 
     const randomNumber = Math.floor(Math.random() * 100);
@@ -266,7 +279,11 @@ function getRandomHero() {
         selectedHero = otherHeroes[Math.floor(Math.random() * otherHeroes.length)];
     }
 
+    // Gera um uniqueId para o herói selecionado
+    const uniqueId = generateUniqueId();
+
     const heroDetails = {
+        uniqueId: uniqueId, // Atribui o uniqueId gerado
         name: selectedHero.name,
         power: selectedHero.power,
         skill: selectedHero.skill,
@@ -280,6 +297,10 @@ function getRandomHero() {
     localStorage.setItem('userHeroes', JSON.stringify(userHeroes));
 
     return heroDetails; // Retorna o herói detalhado
+}
+function generateUniqueId() {
+    // Gera um ID único usando data atual e números aleatórios
+    return 'hero-' + Date.now() + '-' + Math.floor(Math.random() * 1000);
 }
 
 // Função para atribuir raridade ao herói

@@ -62,12 +62,18 @@ function checkHeroRescue() {
     return true; // Permite resgatar
 }
 
+function generateUniqueId() {
+    // Gera um ID único usando data atual e números aleatórios
+    return 'hero-' + Date.now() + '-' + Math.floor(Math.random() * 1000);
+}
+
+
 function rescueHero() {
     const canRescue = checkHeroRescue();
-    if (!canRescue) {
-        showFeedback("Você já resgatou um herói hoje!", true);
-       return; // Impede o resgate se já resgatou hoje
-    }
+    // if (!canRescue) {
+    //     showFeedback("Você já resgatou um herói hoje!", true);
+    //     return; // Impede o resgate se já resgatou hoje
+    // }
 
     const hero = getRandomHero();
     if (!hero) {
@@ -81,9 +87,12 @@ function rescueHero() {
     // Atribui raridade com base no poder do herói
     heroDetails.rarity = assignRarity(heroDetails.power);
 
+    // Gera um ID único para o herói resgatado
+    heroDetails.uniqueId = generateUniqueId(); 
+
     let userHeroes = JSON.parse(localStorage.getItem('userHeroes')) || [];
 
-    // Adiciona o novo herói com detalhes
+    // Adiciona o novo herói com detalhes e o ID único gerado
     userHeroes.push(heroDetails);
     localStorage.setItem('userHeroes', JSON.stringify(userHeroes));
     localStorage.setItem('heroRescued', 'true'); // Marca que um herói foi resgatado
@@ -101,6 +110,7 @@ function rescueHero() {
     const latestHeroCard = heroesList.lastElementChild; // Última carta é o herói resgatado
     latestHeroCard.classList.add('hero-rescue'); // Adiciona classe de animação
 }
+
 
 
 
