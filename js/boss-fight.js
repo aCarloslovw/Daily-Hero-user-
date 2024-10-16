@@ -200,9 +200,16 @@ function displayAvailableHeroes(heroes) {
 }
 // Função para atualizar a contagem de chaves na interface
 function updateKeyCount() {
+    // Atualiza a exibição da quantidade de chaves
     document.getElementById('keys-available').textContent = keysAvailable;
+
+    // Salva a quantidade de chaves no localStorage
+    localStorage.setItem('keysAvailable', keysAvailable);
+
+    // Desabilita o botão de resgate se não houver chaves disponíveis
     document.getElementById('rescue-button').disabled = keysAvailable <= 0;
 }
+
 
 function rescueHero() {
     if (keysAvailable > 0) {
@@ -350,6 +357,16 @@ window.onclick = function(event) {
     }
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+    loadKeyCount(); // Carrega a quantidade de chaves do localStorage
+});
+function loadKeyCount() {
+    // Tenta carregar o valor de 'keysAvailable' do localStorage, ou define como 0 se não houver valor salvo
+    keysAvailable = parseInt(localStorage.getItem('keysAvailable')) || 0;
+
+    // Atualiza a exibição com o valor carregado
+    updateKeyCount();
+}
 
 
 // Chama as funções quando a página é carregada
