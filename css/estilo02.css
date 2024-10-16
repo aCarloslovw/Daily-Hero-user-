@@ -10,9 +10,11 @@
     transition: transform 0.2s; /* Efeito de transição */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Sombra mais suave */
 }
+
 .hero-card:hover {
     transform: scale(1.05); /* Aumenta a carta ao passar o mouse */
 }
+
 .hero-card img {
     width: 100%; /* Ajusta a imagem para a largura da carta */
     height: auto; /* Mantém a proporção da imagem */
@@ -193,6 +195,44 @@ button {
 
 button:hover {
     background-color: #b89b32; /* Dourado escuro ao passar o mouse */
+}
+
+.evolution-section {
+    margin: 20px 0;
+    text-align: center;
+}
+
+#evolve-btn {
+    background-color: #cba83d; /* Dourado */
+    color: #2f2a29; /* Cor de texto escura */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+#evolve-btn:hover {
+    background-color: #b89b32; /* Dourado escuro ao passar o mouse */
+}
+
+#evolution-result {
+    margin-top: 15px;
+    font-weight: bold;
+    color: #cba83d; /* Dourado */
+}
+
+#new-hero-card {
+    margin-top: 20px;
+    text-align: center;
+    display: none; /* Mantém oculto até a evolução */
+}
+
+#evolved-hero {
+    margin-top: 15px;
+    font-weight: bold;
+    color: #cba83d; /* Dourado */
 }
 
 @media (max-width: 600px) {

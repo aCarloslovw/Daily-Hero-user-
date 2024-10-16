@@ -8,6 +8,23 @@ let selectedHero = null; // Variável para armazenar o herói selecionado
 let keysAvailable = 0; // Inicializa o contador de chaves
 let rescuedHeroes = []; // Array para armazenar os heróis resgatados
 let defeatedHeroes = [];
+let items = [];
+
+// Função para carregar itens do localStorage
+function loadUserItems() {
+    items = JSON.parse(localStorage.getItem('userItems')) || []; // Carrega itens do localStorage
+}
+
+// Função para adicionar um item
+function addItem(item) {
+    items.push(item); // Adiciona o item ao array
+    updateItemsInStorage(); // Atualiza o localStorage
+}
+
+// Função para atualizar o localStorage
+function updateItemsInStorage() {
+    localStorage.setItem('userItems', JSON.stringify(items)); // Salva os itens no localStorage
+}
 
 // Função para mostrar o banco de heróis
 function showHeroSelection() {
@@ -83,7 +100,7 @@ function selectHero(hero) {
 
 
 
-let bossHp = 100; // HP do boss fora da função para persistência
+let bossHp = 200; // HP do boss fora da função para persistência
 let bossDefeated = false;
 // Função para iniciar a batalha
 function startBattle() {
@@ -99,7 +116,7 @@ function startBattle() {
         showCustomAlert("Este herói foi derrotado e não pode ser selecionado novamente.");
         return; // Impede a função de continuar
     }   
-    const bossPower = 100; // Poder do boss
+    const bossPower = 200; // Poder do boss
     const heroPower = selectedHero.power; // Poder do herói
     let heroHp = selectedHero.hp; // HP do herói
 
@@ -115,18 +132,26 @@ function startBattle() {
         updateHpDisplay();
         document.querySelector('.boss').classList.add('attack'); // Adiciona animação de ataque
     
-        // Verifica se o boss foi derrotado
-        if (bossHp <= 0) {
+        if (bossHp <= 0) { 
             document.getElementById('battle-result').textContent = `${selectedHero.name} venceu o Dragão Ancião!`;
-    
+        
             // Adiciona a animação ao herói
             document.querySelector('.hero').classList.add('win');
-    
+        
             bossDefeated = true; // Marca o boss como derrotado
             keysAvailable++; // Incrementa o contador de chaves ao vencer o boss
             updateKeyCount(); // Atualiza a exibição de chaves
+        
+            // Adiciona o item "Balerion" ao inventário do usuário
+            if (Math.random() < 0.01) { // Verifica 1% de chance
+                addItem("Balerion"); // Chama a função que adiciona o item
+                showCustomAlert("Você ganhou o item: Balerion!"); // Opcional: Alerta para o jogador
+            } else {
+                showCustomAlert("Você não ganhou o item: Balerion desta vez."); // Opcional: Alerta se não ganhar
+            }
             return; // Encerra a batalha
         }
+        
     
         // O boss ataca o herói
         setTimeout(() => {
@@ -166,6 +191,15 @@ function startBattle() {
     }
 
     turn(); // Inicia o primeiro turno
+}
+
+function addItem(item) {
+    items.push(item); // Adiciona o item ao array
+    updateItemsInStorage(); // Atualiza o localStorage
+}
+
+function updateItemsInStorage() {
+    localStorage.setItem('userItems', JSON.stringify(items)); // Salva os itens no localStorage
 }
 
 
@@ -374,4 +408,5 @@ window.onload = function () {
     loadHeroesFromStorage();
     updateKeyCount();
     updateRescuedHeroesList();
+    loadUserItems();
 };

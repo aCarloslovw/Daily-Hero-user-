@@ -7,12 +7,43 @@
     <link rel="stylesheet" href="/css/estilo02.css"> <!-- Link para seu CSS -->
 </head>
 <body>
+    <div id="evolution-section">
+        <h2>Evoluir Herói</h2>
+        <div>
+            <label for="hero-select">Selecione um Herói:</label>
+            <select id="hero-select">
+                <option value="">-- Escolha um Herói --</option>
+            </select>
+        </div>
+        <div>
+            <label for="item-select">Selecione um Item:</label>
+            <select id="item-select">
+                <option value="">-- Escolha um Item --</option>
+            </select>
+        </div>
+        <button id="evolve-btn">Evoluir</button>
+        <div id="evolution-result"></div> <!-- Para mostrar o resultado da evolução -->
+    </div>
+    
+    <div id="new-hero-card" style="display: none;">
+        <h2>Novo Herói Evoluído</h2>
+        <div id="evolved-hero"></div> <!-- Contêiner para a nova carta do herói -->
+    </div>
+    
+
+
+
     <div id="user-heroes">
         <h2>Heróis Resgatados</h2>
         <div id="heroes-list"></div> <!-- O contêiner para as cartas dos heróis -->
     </div>
-        <button onclick="goBack()">Voltar</button>
+    
+    <div id="user-items">
+        <h2>Itens Obtidos</h2>
+        <div id="items-list"></div> <!-- O contêiner para os itens do usuário -->
     </div>
+
+    <button onclick="goBack()">Voltar</button>
 
     <script src="/js/banco-herois.js"></script>
 </body>
