@@ -134,23 +134,30 @@ function startBattle() {
     
         if (bossHp <= 0) { 
             document.getElementById('battle-result').textContent = `${selectedHero.name} venceu o Dragão Ancião!`;
-        
+            
             // Adiciona a animação ao herói
             document.querySelector('.hero').classList.add('win');
-        
+            
             bossDefeated = true; // Marca o boss como derrotado
             keysAvailable++; // Incrementa o contador de chaves ao vencer o boss
+            addItem("Balerion");
             updateKeyCount(); // Atualiza a exibição de chaves
-        
+            
             // Adiciona o item "Balerion" ao inventário do usuário
-            if (Math.random() < 0.01) { // Verifica 1% de chance
-                addItem("Balerion"); // Chama a função que adiciona o item
-                showCustomAlert("Você ganhou o item: Balerion!"); // Opcional: Alerta para o jogador
-            } else {
-                showCustomAlert("Você não ganhou o item: Balerion desta vez."); // Opcional: Alerta se não ganhar
-            }
+            const newItem = {
+                uniqueId: generateUniqueId(), // Gera o uniqueId para o item
+                name: "Balerion"
+            };
+            console.log("Novo item adicionado:", newItem); // Log do item e seu uniqueId
+            
+            // Adiciona o item ao inventário (localStorage)
+            let userItems = JSON.parse(localStorage.getItem('userItems')) || [];
+            userItems.push(newItem);
+            localStorage.setItem('userItems', JSON.stringify(userItems));
+            
             return; // Encerra a batalha
         }
+        
         
     
         // O boss ataca o herói
@@ -193,10 +200,7 @@ function startBattle() {
     turn(); // Inicia o primeiro turno
 }
 
-function addItem(item) {
-    items.push(item); // Adiciona o item ao array
-    updateItemsInStorage(); // Atualiza o localStorage
-}
+
 
 function updateItemsInStorage() {
     localStorage.setItem('userItems', JSON.stringify(items)); // Salva os itens no localStorage
@@ -320,9 +324,9 @@ function updateRescuedHeroesList() {
 // Função para obter um herói aleatório
 function getRandomHero() {
     const heroes = [
-        {name: "Baby Dragon", power: 20, skill: "Corte Poderoso", hp: 50, image: "https://th.bing.com/th/id/OIG3.FSFYb04IkPf3bieUvP_A?w=1024&h=1024&rs=1&pid=ImgDetMain" },
-        {name: "Cavaleiro Dragão", power: 80, skill: "Fogo Mágico", hp: 85, image: "https://tse4.mm.bing.net/th?id=OIG2..rkR9vAnghogNT7ZXb1J&pid=ImgGn" },
-        {name: "Rei Dragão", power: 100, skill: "Kings Will", hp: 120, image: "https://tse3.mm.bing.net/th?id=OIG3.Z4nvGNc3EQEmWANRKFll&pid=ImgGn" },
+        {id: 29,name: "Baby Dragon", power: 20, skill: "Corte Poderoso", hp: 50, image: "https://th.bing.com/th/id/OIG3.FSFYb04IkPf3bieUvP_A?w=1024&h=1024&rs=1&pid=ImgDetMain" },
+        {id: 30,name: "Cavaleiro Dragão", power: 80, skill: "Fogo Mágico", hp: 85, image: "https://tse4.mm.bing.net/th?id=OIG2..rkR9vAnghogNT7ZXb1J&pid=ImgGn" },
+        {id: 31,name: "Rei Dragão", power: 100, skill: "Kings Will", hp: 120, image: "https://tse3.mm.bing.net/th?id=OIG3.Z4nvGNc3EQEmWANRKFll&pid=ImgGn" },
     ];
 
     const randomNumber = Math.floor(Math.random() * 100);

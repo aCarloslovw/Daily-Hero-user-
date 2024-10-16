@@ -1,5 +1,5 @@
 [
-    { "id": 1, "name": "Knight", "power": 80, "description": "A brave warrior.", "image": "https://awoiaf.westeros.org/images/a/ac/Daemon_Blackfyre_by_Jota_Saraiva.jpg", "rarity": "heroic", "skill": "Defensive Stance", "hp": 100, "isDefeated": false },
+    { "id": 1, "name": "Knight", "power": 80, "description": "A brave warrior.", "image": "https://tse3.mm.bing.net/th?id=OIG4.vLq77wrPR8504lXui1Du&pid=ImgGn", "rarity": "heroic", "skill": "Defensive Stance", "hp": 100, "isDefeated": false },
     { "id": 2, "name": "Mage", "power": 70, "description": "A master of magic.", "image": "https://awoiaf.westeros.org/images/9/9e/Shiera_Seastar.jpg", "rarity": "heroic", "skill": "Fireball", "hp": 80, "isDefeated": false },
     { "id": 3, "name": "Archer", "power": 60, "description": "A skilled marksman.", "image": "https://awoiaf.westeros.org/images/d/d7/Bloodraven.jpg", "rarity": "common", "skill": "Piercing Arrow", "hp": 70, "isDefeated": false },
     { "id": 4, "name": "Rogue", "power": 75, "description": "A cunning thief.", "image": "https://tse2.mm.bing.net/th?id=OIG3.WIxp1k7W.oCBtZrK06QO&pid=ImgGn", "rarity": "common", "skill": "Stealth Attack", "hp": 65, "isDefeated": false },

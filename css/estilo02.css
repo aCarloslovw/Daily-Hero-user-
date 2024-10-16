@@ -1,266 +1,199 @@
-.hero-card {
-    border: 2px solid #ccc;
-    border-radius: 10px;
-    width: 220px; /* Largura da carta ajustada */
-    margin: 15px; /* Margem entre as cartas */
-    padding: 15px; /* Aumenta o padding */
-    text-align: center;
-    background-color: #1e1e1e; /* Mudança na cor de fundo */
-    color: #fff; /* Cor do texto */
-    transition: transform 0.2s; /* Efeito de transição */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Sombra mais suave */
-}
-
-.hero-card:hover {
-    transform: scale(1.05); /* Aumenta a carta ao passar o mouse */
-}
-
-.hero-card img {
-    width: 100%; /* Ajusta a imagem para a largura da carta */
-    height: auto; /* Mantém a proporção da imagem */
-    border-radius: 8px;
-    margin-bottom: 10px; /* Espaço abaixo da imagem */
-}
-
-.hero-card .hero-title {
-    font-size: 1.2em; /* Aumenta o tamanho do texto do título */
-}
-
-.lendario {
-    color: gold; /* Cor dourada para lendário */
-}
-
-.heroico {
-    color: red; /* Cor vermelha para heroico */
-}
-
-.comum {
-    color: gray; /* Cor cinza para comum */
-}
-
-.hero-title {
-    font-weight: bold;
-    font-size: 1.2em;
-    margin: 5px 0;
-}
-
-.hero-rarity {
-    font-style: italic;
-    color: #555;
-}
-
-.hero-attribute {
-    margin: 5px 0;
-    font-size: 0.9em;
-}
-
-#heroes-list {
-    display: flex;
-    flex-wrap: wrap; /* Permite que as cartas se ajustem na linha */
-    justify-content: center; /* Centraliza as cartas */
-    padding: 0; /* Remove o padding padrão da lista */
-    margin: 0; /* Remove a margem padrão da lista */
-    list-style-type: none; /* Remove os marcadores da lista */
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+:root {
+    --cor-fundo-body: #2f2a29;
+    --cor-fundo-container: #5a4b4a;
+    --cor-texto-branco: #fff;
+    --cor-dourado: #cba83d;
+    --cor-dourado-escuro: #b89b32;
+    --cor-vermelho: red;
+    --cor-ouro: gold;
+    --cor-cinza: gray;
+    --cor-borda: #cba83d;
+    --cor-sombra: rgba(0, 0, 0, 0.5);
 }
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #2f2a29; /* Cor escura para o fundo */
-    color: #fff; /* Texto branco */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh; /* Usar min-height para garantir que o conteúdo se expanda em telas pequenas */
-    padding: 10px;
-}
-
-.container {
-    background-color: #5a4b4a; /* Um tom de cinza escuro */
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-    padding: 20px;
-    width: 100%;
-    max-width: 400px; /* Limite máximo de largura para desktops */
-    text-align: center;
-    border: 2px solid #a52a2a; /* Borda vermelha escura */
-}
-
-h1 {
-    margin-bottom: 20px;
-    color: #cba83d; /* Dourado */
-}
-
-#hero-box {
-    margin-bottom: 20px;
-}
-
-#rescue-btn {
-    background-color: #cba83d; /* Dourado */
-    color: #2f2a29; /* Cor de texto escura */
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-}
-
-#rescue-btn:hover {
-    background-color: #b89b32; /* Dourado escuro ao passar o mouse */
-}
-
-#user-heroes {
-    margin-top: 20px;
-}
-
-#heroes-list {
-    list-style-type: none;
-}
-
-#heroes-list li {
-    background-color: #7a6f6e; /* Tom mais claro de cinza */
-    margin-bottom: 5px;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #cba83d; /* Borda dourada */
-}
-
-#json-actions {
-    margin-top: 20px;
-}
-
-#file-input {
-    margin-top: 10px;
-    padding: 5px;
-}
-
-#feedback-message {
-    margin-top: 20px;
-    padding: 10px;
-    font-weight: bold;
-    color: #cba83d; /* Dourado */
-}
-
-#error-message {
-    color: red;
-}
-
-ul#heroes-list {
-    list-style-type: none;
+    background-color: var(--cor-fundo-body);
+    color: var(--cor-texto-branco);
+    margin: 0;
     padding: 0;
 }
 
-ul#heroes-list li {
-    display: flex;
-    align-items: center;
-    margin: 10px 0;
+h2 {
+    font-size: 24px;
+    color: var(--cor-texto-branco);
+    margin-bottom: 10px;
+}
+
+/* Seções */
+#evolution-section, #user-heroes, #user-items {
+    background-color: var(--cor-fundo-container);
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px auto;
+    width: 90%;
+    max-width: 800px;
+    box-shadow: 0px 2px 10px var(--cor-sombra);
+}
+
+select {
+    width: 100%;
     padding: 10px;
-    background-color: #5a4b4a; /* Fundo dos heróis */
-    border: 1px solid #cba83d; /* Borda dourada */
-}
-
-ul#heroes-list li img {
-    border-radius: 50%; /* Para deixar a imagem redonda */
-    margin-right: 15px;
-}
-
-.heroic {
-    color: red; /* Vermelho para heróis heroicos */
-}
-
-.legendary {
-    color: gold; /* Dourado para heróis lendários */
-}
-
-.common {
-    color: gray; /* Cinza para heróis comuns */
-}
-
-button {
-    background-color: #cba83d; /* Dourado */
-    color: #2f2a29; /* Texto escuro */
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 5px;
-    font-size: 1em;
-    margin: 10px 0;
-}
-
-button:hover {
-    background-color: #b89b32; /* Dourado escuro ao passar o mouse */
-}
-
-.evolution-section {
-    margin: 20px 0;
-    text-align: center;
-}
-
-#evolve-btn {
-    background-color: #cba83d; /* Dourado */
-    color: #2f2a29; /* Cor de texto escura */
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+    border: 1px solid var(--cor-borda);
+    border-radius: 4px;
+    margin-bottom: 15px;
+    background-color: var(--cor-texto-branco);
+    color: var(--cor-fundo-body);
     font-size: 16px;
+}
+
+button#evolve-btn, button#goBack {
+    display: block;
+    width: 100%;
+    background-color: var(--cor-dourado);
+    color: var(--cor-texto-branco);
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
-#evolve-btn:hover {
-    background-color: #b89b32; /* Dourado escuro ao passar o mouse */
+button#evolve-btn:hover, button#goBack:hover {
+    background-color: var(--cor-dourado-escuro);
 }
 
-#evolution-result {
-    margin-top: 15px;
-    font-weight: bold;
-    color: #cba83d; /* Dourado */
-}
-
-#new-hero-card {
+/* Resultados e listas */
+#evolution-result, #evolved-hero, #heroes-list, #items-list {
     margin-top: 20px;
+    padding: 10px;
+    background-color: var(--cor-fundo-container);
+    border: 1px solid var(--cor-borda);
+    border-radius: 4px;
     text-align: center;
-    display: none; /* Mantém oculto até a evolução */
 }
 
-#evolved-hero {
-    margin-top: 15px;
+/* Cartas de heróis */
+.hero-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    background-color: var(--cor-fundo-container);
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    margin: 10px;
+    width: 150px;
+    box-shadow: 0px 2px 8px var(--cor-sombra);
+    transition: transform 0.3s ease;
+}
+
+.hero-card img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    
+}
+
+.hero-card:hover {
+    transform: scale(1.05);
+}
+
+.hero-title {
     font-weight: bold;
-    color: #cba83d; /* Dourado */
+    margin-top: 10px;
 }
 
-@media (max-width: 600px) {
-    body {
+.hero-attribute {
+    font-size: 14px;
+    color: var(--cor-texto-branco);
+}
+
+.hero-rarity {
+    margin-top: 5px;
+    font-size: 16px;
+    color: var(--cor-texto-branco);
+}
+
+/* Lista de heróis em linha */
+#heroes-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* Seção de novo herói */
+#new-hero-card {
+    display: none;
+    background-color: var(--cor-fundo-container);
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px auto;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0px 2px 10px var(--cor-sombra);
+}
+
+#new-hero-card h2 {
+    text-align: center;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    /* Ajuste dos botões para telas menores */
+    button#evolve-btn, button#goBack {
+        width: 100%;
+        font-size: 14px;
         padding: 10px;
     }
 
-    ul#heroes-list li {
-        flex-direction: column; /* Empilha a imagem e o texto em telas pequenas */
-        align-items: flex-start;
+    /* Cartas de heróis mais compactas */
+    .hero-card {
+        width: 120px;
     }
 
-    ul#heroes-list li img {
-        margin: 0 0 10px 0; /* Margem apenas em baixo */
+    .hero-card img {
+        width: 80px;
+        height: 80px;
+    }
+
+    /* Seções ajustadas */
+    #evolution-section, #user-heroes, #user-items {
+        padding: 15px;
+    }
+
+    h2 {
+        font-size: 20px;
     }
 }
 
-@media (min-width: 600px) {
-    .container {
-        padding: 40px;
+@media (max-width: 480px) {
+    /* Ajustes adicionais para telas muito pequenas */
+    .hero-card {
+        width: 100px;
+        margin: 5px;
     }
-    
-    ul#heroes-list li {
-        padding: 15px;
+
+    .hero-card img {
+        width: 60px;
+        height: 60px;
     }
-    
-    button {
-        font-size: 1.2em;
-        padding: 15px 30px;
+
+    h2 {
+        font-size: 18px;
+    }
+
+    select {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    button#evolve-btn, button#goBack {
+        font-size: 12px;
+        padding: 8px;
     }
 }

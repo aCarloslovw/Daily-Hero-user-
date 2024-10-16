@@ -10,9 +10,11 @@ function loadUserHeroes() {
     heroesList.innerHTML = ""; // Limpa a lista existente
     heroSelect.innerHTML = `<option value="">-- Escolha um Herói --</option>`; // Limpa opções do select
 
-    userHeroes.forEach(hero => {
-        heroes.push(hero); // Adiciona o herói ao array heroes
+    // Ordena os heróis pelo nome em ordem alfabética
+    const sortedHeroes = userHeroes.sort((a, b) => a.name.localeCompare(b.name));
 
+    // Exibe os heróis de forma ordenada por nome
+    sortedHeroes.forEach(hero => {
         const card = document.createElement('div');
         card.className = 'hero-card'; // Adiciona a classe da carta
 
@@ -40,7 +42,7 @@ function loadUserHeroes() {
                 <div class="hero-attribute">Poder: ${hero.power}</div>
                 <div class="hero-attribute">Descrição: ${hero.description}</div>
                 <div class="hero-attribute">Habilidade: ${hero.skill}</div>
-                <div class="hero-attribute">HP: ${hero.hp}</div> <!-- Adiciona a exibição do HP -->
+                <div class="hero-attribute">HP: ${hero.hp}</div> <!-- Exibe o HP -->
             </div>
         `;
 
@@ -48,6 +50,8 @@ function loadUserHeroes() {
         heroSelect.innerHTML += `<option value="${hero.name}">${hero.name}</option>`; // Adiciona o herói ao select
     });
 }
+
+
 
 // Função para carregar itens do localStorage
 function loadUserItems() {
@@ -59,13 +63,26 @@ function loadUserItems() {
     itemSelect.innerHTML = `<option value="">-- Escolha um Item --</option>`; // Limpa opções do select
 
     items.forEach(item => {
+        // Verifica se o item é um objeto com a propriedade 'name'
+        const itemName = typeof item === 'object' && item.name ? item.name : item;
+    
+        // Se o item for um objeto sem 'name', pula
+        if (itemName === '[object Object]') {
+            return; // Ignora objetos inválidos
+        }
+    
+        // Criação do elemento visual para o item
         const itemDiv = document.createElement('div');
         itemDiv.className = 'item-card'; // Adiciona a classe da carta de item
-        itemDiv.textContent = item; // Exibe o nome do item
-
-        itemsList.appendChild(itemDiv); // Adiciona o item à lista
-        itemSelect.innerHTML += `<option value="${item}">${item}</option>`; // Adiciona o item ao select
+        itemDiv.textContent = itemName; // Exibe o nome do item
+    
+        // Adiciona o item à lista visual
+        itemsList.appendChild(itemDiv);
+    
+        // Adiciona o item ao select, usando o valor do nome corretamente
+        itemSelect.innerHTML += `<option value="${itemName}">${itemName}</option>`;
     });
+    
 }
 
 // Função para gerar um novo ID único
@@ -75,11 +92,26 @@ function generateUniqueId() {
 
 // Função para evoluir um herói
 function evolveHero(selectedHeroName, selectedItemName) {
-    const selectedHero = heroes.find(hero => hero.name === selectedHeroName);
+    // Recupera todos os heróis do localStorage
+    let userHeroes = JSON.parse(localStorage.getItem('userHeroes')) || [];
+
+    console.log("Heróis armazenados:", userHeroes);
+
+    // Encontra o herói selecionado
+    const selectedHero = userHeroes.find(hero => hero.name === selectedHeroName);
+
+    if (!selectedHero) {
+        console.log("Herói não encontrado.");
+        return null;
+    }
     
-    // Condição de evolução para Knight e Balerion
+    console.log("Herói selecionado para evolução:", selectedHero);
+
+    // Verifica se o herói e o item são válidos para evolução
     if (selectedHeroName === "Knight" && selectedItemName === "Balerion") {
         const uniqueId = generateUniqueId();
+        console.log("Condições de evolução satisfeitas. Gerando Aegon...");
+
         // Criação da nova carta "Aegon, o Conquistador"
         const aegon = {
             uniqueId: uniqueId,
@@ -87,21 +119,50 @@ function evolveHero(selectedHeroName, selectedItemName) {
             name: "Aegon, o Conquistador", // Nome do novo herói
             power: 100, // Novo poder
             description: "O conquistador dos Sete Reinos.", // Descrição
-            image: "https://th.bing.com/th/id/OIG2.pJagMudDQFiN0DV7fWZY?pid=ImgGn", // URL da imagem (substitua pelo link correto)
+            image: "https://th.bing.com/th/id/OIG2.pJagMudDQFiN0DV7fWZY?pid=ImgGn", // URL da imagem
             rarity: "lendário", // Raridade
             skill: "Conquista Infinita", // Nova habilidade
             hp: 150, // HP do novo herói
             isDefeated: false // Status de derrotado
         };
 
-        // Adiciona o novo herói ao localStorage
-        const updatedHeroes = [...heroes, aegon]; // Cria um novo array com o herói evoluído
-        localStorage.setItem('userHeroes', JSON.stringify(updatedHeroes)); // Atualiza o localStorage com os novos heróis
+        // Adiciona o novo herói ao array existente de heróis
+        userHeroes = [...userHeroes, aegon];
 
-        return aegon; // Retorna o novo herói
+        // Remove o herói original da lista de heróis
+        userHeroes = userHeroes.filter(hero => hero.name !== selectedHeroName);
+
+        // Atualiza o localStorage com os novos heróis (incluindo a remoção do original)
+        localStorage.setItem('userHeroes', JSON.stringify(userHeroes));
+
+        console.log("Heróis após a evolução:", userHeroes);
+
+        // Remover o item selecionado (simulação de array de itens no localStorage)
+        let userItems = JSON.parse(localStorage.getItem('userItems')) || [];
+        console.log("Itens armazenados antes da remoção:", userItems);
+
+        // Filtra os itens removendo o item evoluído
+        userItems = userItems.filter(item => item.uniqueId !== selectedItemName.uniqueId);
+        localStorage.setItem('userItems', JSON.stringify(userItems));
+
+        console.log("Itens após a remoção:", userItems);
+
+        return aegon; // Retorna o novo herói evoluído
     }
 
     return null; // Se não for Knight com Balerion, não evolui
+}
+
+
+
+function removeItem(uniqueId) {
+    let userItems = JSON.parse(localStorage.getItem('userItems')) || [];
+    
+    // Filtra o item que será removido
+    userItems = userItems.filter(item => item.uniqueId !== uniqueId);
+    
+    // Atualiza o localStorage
+    localStorage.setItem('userItems', JSON.stringify(userItems));
 }
 
 // Evento de clique no botão de evolução
@@ -114,6 +175,10 @@ document.getElementById('evolve-btn').addEventListener('click', () => {
 
     const selectedHeroName = heroSelect.value;
     const selectedItemName = itemSelect.value;
+
+    // Log para verificar os valores selecionados
+    console.log("Herói selecionado:", selectedHeroName);
+    console.log("Item selecionado:", selectedItemName);
 
     if (selectedHeroName && selectedItemName) {
         const evolvedHero = evolveHero(selectedHeroName, selectedItemName);
@@ -139,6 +204,7 @@ document.getElementById('evolve-btn').addEventListener('click', () => {
         evolutionResult.innerHTML = 'Por favor, selecione um herói e um item para evoluir.';
     }
 });
+
 
 // Função para voltar à página anterior
 function goBack() {
