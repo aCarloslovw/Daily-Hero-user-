@@ -78,7 +78,7 @@ function selectHero(hero) {
 
 
 let bossHp = 100; // HP do boss fora da função para persistência
-
+let bossDefeated = false;
 // Função para iniciar a batalha
 function startBattle() {
     console.log("A função startBattle foi chamada.");
@@ -99,16 +99,24 @@ function startBattle() {
 
     // Função que realiza a batalha em turnos
     function turn() {
+        // Verifica se o boss já foi derrotado
+        if (bossDefeated) {
+            document.getElementById('battle-result').textContent = "O Dragão Ancião já foi derrotado. Você não pode lutar novamente.";
+            return; // Impede de continuar se o boss já estiver derrotado
+        }
+    
         bossHp -= heroPower; // Dano ao boss
         updateHpDisplay();
         document.querySelector('.boss').classList.add('attack'); // Adiciona animação de ataque
     
+        // Verifica se o boss foi derrotado
         if (bossHp <= 0) {
             document.getElementById('battle-result').textContent = `${selectedHero.name} venceu o Dragão Ancião!`;
     
             // Adiciona a animação ao herói
             document.querySelector('.hero').classList.add('win');
     
+            bossDefeated = true; // Marca o boss como derrotado
             keysAvailable++; // Incrementa o contador de chaves ao vencer o boss
             updateKeyCount(); // Atualiza a exibição de chaves
             return; // Encerra a batalha
