@@ -297,6 +297,7 @@ button:hover, .fight-btn:hover {
 
 
 
+
 @keyframes spin {
     0% {
         transform: translate(-50%, -50%) rotateY(0deg);

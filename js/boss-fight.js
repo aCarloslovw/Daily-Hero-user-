@@ -140,20 +140,25 @@ function startBattle() {
             
             bossDefeated = true; // Marca o boss como derrotado
             keysAvailable++; // Incrementa o contador de chaves ao vencer o boss
-            addItem("Balerion");
             updateKeyCount(); // Atualiza a exibição de chaves
             
-            // Adiciona o item "Balerion" ao inventário do usuário
-            const newItem = {
-                uniqueId: generateUniqueId(), // Gera o uniqueId para o item
-                name: "Balerion"
-            };
-            console.log("Novo item adicionado:", newItem); // Log do item e seu uniqueId
-            
-            // Adiciona o item ao inventário (localStorage)
-            let userItems = JSON.parse(localStorage.getItem('userItems')) || [];
-            userItems.push(newItem);
-            localStorage.setItem('userItems', JSON.stringify(userItems));
+            // Adiciona o item "Balerion" ao inventário do usuário com 0,5% de chance
+            if (Math.random() < 0.005) { // Verifica 0,5% de chance
+                const newItem = {
+                    uniqueId: generateUniqueId(), // Gera o uniqueId para o item
+                    name: "Balerion"
+                };
+                console.log("Novo item adicionado:", newItem); // Log do item e seu uniqueId
+                
+                // Adiciona o item ao inventário (localStorage)
+                let userItems = JSON.parse(localStorage.getItem('userItems')) || [];
+                userItems.push(newItem);
+                localStorage.setItem('userItems', JSON.stringify(userItems));
+                
+                showCustomAlert("Você ganhou o item: Balerion!"); // Alerta para o jogador
+            } else {
+                showCustomAlert("Você não ganhou o item: Balerion desta vez."); // Alerta se não ganhar
+            }
             
             return; // Encerra a batalha
         }
@@ -381,6 +386,8 @@ function showCustomAlert(message) {
     modalMessage.textContent = message;
     modal.style.display = "block"; // Exibe o modal
 }
+
+
 
 // Função para fechar o modal
 document.getElementById("close-modal").onclick = function() {
