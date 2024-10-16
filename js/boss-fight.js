@@ -18,6 +18,11 @@ function showHeroSelection() {
     const storedHeroes = loadHeroesFromStorage(); // Carrega heróis do localStorage
 
     storedHeroes.forEach(hero => {
+        // Verifica se o herói está na lista de derrotados
+        if (defeatedHeroes.includes(hero.uniqueId)) {
+            return; // Pula a adição do herói derrotado
+        }
+
         const heroCard = document.createElement('div');
         heroCard.classList.add('hero-card');
 
@@ -50,6 +55,7 @@ function showHeroSelection() {
 
     heroSelection.style.display = 'flex';
 }
+
 
 // Função para selecionar o herói
 function selectHero(hero) {
