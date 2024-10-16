@@ -95,7 +95,7 @@ function startBattle() {
         return;
     }
 
-    if (defeatedHeroes.includes(selectedHero.id)) {
+    if (defeatedHeroes.includes(selectedHero.uniqueId)) {
         showCustomAlert("Este herói foi derrotado e não pode ser selecionado novamente.");
         return; // Impede a função de continuar
     }   
