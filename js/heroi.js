@@ -63,9 +63,9 @@ function checkHeroRescue() {
 }
 
 function generateUniqueId() {
-    // Gera um ID único usando data atual e números aleatórios
-    return 'hero-' + Date.now() + '-' + Math.floor(Math.random() * 1000);
+    return 'hero_' + Math.random().toString(36).substr(2, 9); // Gera um ID único
 }
+
 
 
 function rescueHero() {

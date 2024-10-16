@@ -53,8 +53,8 @@ function showHeroSelection() {
 
 // Função para selecionar o herói
 function selectHero(hero) {
-    // Verifica se o herói está na lista de derrotados
-    if (defeatedHeroes.includes(hero.name)) {
+    // Verifica se o herói está na lista de derrotados pelo uniqueId
+    if (defeatedHeroes.includes(hero.uniqueId)) {
         showCustomAlert("Este herói foi derrotado e não pode ser selecionado novamente.");
         return; // Impede a seleção do herói derrotado
     }
@@ -156,16 +156,17 @@ function startBattle() {
 
 
 function derrotarHeroi(selectedHero) {
-    // Verifica se o herói já foi derrotado pelo uniqueId
+    // Verifica se o herói já foi derrotado usando o uniqueId
     if (!defeatedHeroes.includes(selectedHero.uniqueId)) {
-        defeatedHeroes.push(selectedHero.uniqueId);
+        defeatedHeroes.push(selectedHero.uniqueId); // Adiciona o uniqueId do herói à lista de derrotados
         console.log(`Herói derrotado: ${selectedHero.name} (ID: ${selectedHero.uniqueId})`);
     } else {
         console.log(`Herói ${selectedHero.name} (ID: ${selectedHero.uniqueId}) já foi derrotado.`);
     }
-    
+
     return; // Encerra a batalha
 }
+
 
 
 
@@ -299,9 +300,9 @@ function getRandomHero() {
     return heroDetails; // Retorna o herói detalhado
 }
 function generateUniqueId() {
-    // Gera um ID único usando data atual e números aleatórios
-    return 'hero-' + Date.now() + '-' + Math.floor(Math.random() * 1000);
+    return 'hero_' + Math.random().toString(36).substr(2, 9); // Gera um ID único
 }
+
 
 // Função para atribuir raridade ao herói
 function assignRarity(power) {
